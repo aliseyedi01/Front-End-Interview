@@ -1481,20 +1481,23 @@ document.querySelector("p").addEventListener(
   - Example:
     - Preventing a form from submitting when the user clicks the submit button.
     - When applied to an a tag, it will cause that link to not work
-- stopPropagation() - Propagation - Stop the event propagation, preventing it from reaching parent elements or other event listeners attached to the same element and ensuring the event does not continue along the DOM hierarchy. - Example: - Stopping an event from reaching parent elements.
+- stopPropagation()
+  - Propagation
+    - Stop the event propagation, preventing it from reaching parent elements or other event listeners attached to the same element and ensuring the event does not continue along the DOM hierarchy.
+  - Example:
+    - Stopping an event from reaching parent elements.
 
-      ```javascript
-
-  // preventDefault  
-  document.querySelector('form').addEventListener('submit', function(e) {
+```javascript
+// preventDefault
+document.querySelector("form").addEventListener("submit", function (e) {
   e.preventDefault();
   // Custom form submission logic
-  });
+});
 
 // stopPropagation
-document.querySelector('.child-element').addEventListener('click', function(e) {
-e.stopPropagation();
-// This click event will not propagate to parent elements
+document.querySelector(".child-element").addEventListener("click", function (e) {
+  e.stopPropagation();
+  // This click event will not propagate to parent elements
 });
 ```
 
