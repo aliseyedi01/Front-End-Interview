@@ -118,9 +118,7 @@ if (true) {
 > What is the Hoisting ?
 
 - Move
-
   - Process where function and variable declarations are moved to the top of their containing scope during the compilation phase.
-
 - Use
   - you can use functions or variables in your code even before they are declared.
 
@@ -317,6 +315,77 @@ console.log(fruit2 === fruit1); // true
 
 ### Object
 
+> How can you create objects in JavaScript?
+
+- Type
+
+  - `Object` Literal
+  - `Constructor` Function
+  - `Object.Create` Method
+  - `ES6` Classes
+  - `Object` Constructor
+
+- **Object Literal:**
+  - The simplest way to create an object is by using object literals
+
+```javascript
+var person = {
+  name: "John",
+  age: 30,
+  gender: "Male",
+};
+```
+
+- **Constructor Function:**
+  - which are essentially regular functions that are used to construct objects.
+  - You can define properties and methods inside the constructor function.
+
+```javascript
+function Person(name, age, gender) {
+  this.name = name;
+  this.age = age;
+  this.gender = gender;
+}
+var person = new Person("John", 30, "Male");
+```
+
+- **Object.create Method:**
+  - Can create a new object with the specified prototype object.
+  - It provides a clean way to create objects based on existing prototypes.
+
+```javascript
+var personProto = {
+  greet: function () {
+    console.log("Hello!");
+  },
+};
+var person = Object.create(personProto);
+```
+
+- **ES6 Classes:**
+  - That provide a more familiar and cleaner syntax for defining object blueprints.
+
+```javascript
+class Person {
+  constructor(name, age, gender) {
+    this.name = name;
+    this.age = age;
+    this.gender = gender;
+  }
+}
+var person = new Person("John", 30, "Male");
+```
+
+- **Object Constructor:**
+  - That provides predefined methods for creating and manipulating objects.
+
+```javascript
+var person = new Object();
+person.name = "John";
+person.age = 30;
+person.gender = "Male";
+```
+
 > what is the `Object Destructuring` ?
 
 - **Definition:**
@@ -370,6 +439,154 @@ console.log(fruit2 === fruit1); // true
 
 - **Usage:**
   - Common in extracting data from API responses and complex object manipulations.
+
+> ow can you determine if a property exists in an object in JavaScript?
+
+- determine
+  - `in` operator
+  - `hasOwnProperty` method
+  - Optional chaining
+
+```js
+const person = {
+  name: "Alice",
+  age: 30,
+  gender: "female",
+};
+
+// Operator -> In
+console.log("name" in person); // true
+console.log("job" in person); // false
+
+// Method -> hasOwnProperty
+console.log(person.hasOwnProperty("name")); // true
+console.log(person.hasOwnProperty("job")); // false
+
+// Optional Chaining
+console.log(person?.info?.address?.city); // "New York"
+console.log(person?.info?.job?.title); // undefined (no error)
+```
+
+> What is the difference between `in` operator and `hasOwnProperty` method?
+
+- Check
+  - In
+    - operator checks for **both** own and inherited properties.
+  - hasOwnProperty
+    - method checks **only** for own properties, excluding inherited ones
+
+```js
+// Operator -> In
+const obj = { key: "value" };
+console.log("key" in obj); // true
+console.log("toString" in obj); // true (inherited from Object prototype)
+
+// Method -> hasOwnProperty
+const obj = { key: "value" };
+console.log(obj.hasOwnProperty("key")); // true
+console.log(obj.hasOwnProperty("toString")); // false (inherited property)
+```
+
+> What is the difference between the `freeze` and `seal` methods ?
+
+- **Object**
+  - both method are for the global object immutability methods
+- **Limitation**
+  - Seal
+    - allows edits to existing properties but doesn't permit addition or removal of properties.
+  - Freeze
+    - prevents any changes, making the object completely immutable.
+
+| **Method** | **Add** | **Edit** | **Remove** |
+| ---------- | ------- | -------- | ---------- |
+| `freeze()` | ❌      | ❌       | ❌         |
+| `seal()`   | ❌      | ✅       | ❌         |
+
+```javascript
+// Freeze Method
+const obj = {
+  name: "John",
+  age: 30,
+};
+Object.freeze(obj);
+obj.name = "Alice"; // This change will be ignored in a frozen object
+
+// Seal Method
+const obj = {
+  name: "John",
+  age: 30,
+};
+Object.seal(obj);
+obj.name = "Alice"; // This change is allowed in a sealed object
+obj.address = "123 Street"; // This addition will be ignored in a sealed object
+```
+
+### Array
+
+> How can you determine if a value is an array in JavaScript?
+
+- Determine
+  - `Aarray.isArray()` Method
+  - `instanceof` Operator
+  - `Object.prototype.toString()` Method
+
+```js
+// method ->  Array.isArray
+const arr = [1, 2, 3];
+const nonArray = "Hello";
+console.log(Array.isArray(arr)); // true (arr is an array
+console.log(Array.isArray(nonArray)); // false (nonArray is not an array)
+
+// Operator -> instanceof
+const arr = [1, 2, 3];
+const nonArray = "Hello";
+
+console.log(arr instanceof Array); // true
+console.log(nonArray instanceof Array); // false
+
+// method -> Object.prototype.toString()
+const arr = [1, 2, 3];
+const nonArray = "Hello";
+
+console.log(Object.prototype.toString.call(arr) === "[object Array]"); // true
+console.log(Object.prototype.toString.call(nonArray) === "[object Array]"); // false
+```
+
+> What are the various methods for iterating over array elements using a `for` loop ?
+
+- Type
+  - Standard for Loop
+  - For Of
+  - For In
+  - ForEach
+
+```js
+// Array
+const numbers = [1, 2, 3, 4, 5];
+
+// Standar For
+for (let i = 0; i < numbers.length; i++) {
+  console.log(numbers[i]);
+}
+
+// For Of
+const numbers = [1, 2, 3, 4, 5];
+for (const number of numbers) {
+  console.log(number);
+}
+
+// For In
+const numbers = [1, 2, 3, 4, 5];
+for (let index in numbers) {
+  console.log(numbers[index]);
+}
+
+// ForEach
+const numbers = [1, 2, 3, 4, 5];
+numbers.forEach(function (number) {
+  console.log(number);
+});
+```
 
 ### Number
 
@@ -473,6 +690,70 @@ function exampleFunction(param) {
 }
 ```
 
+### Nan
+
+> what is the `Nan` type ?
+
+- Stand for
+  - Not a Number
+- Occurrences
+  - When a mathematical operation such as multiplication is applied to non-numeric values
+
+```js
+let result = 10 / "apple";
+console.log(result); // NaN (division of a number by a non-numeric value)
+```
+
+- Unique
+  - that is not equal any value , including itself when compared using the equality operations
+
+```js
+console.log(NaN == NaN); // false
+console.log(NaN === NaN); // false
+```
+
+- Check
+  - with `isNan()` can check for NaN values
+  - handle them gracefully in their applications , ensuring that unexpected NaN do not disrupt
+
+```js
+console.log(isNaN(NaN)); // true
+console.log(isNaN("Hello")); // true (non-numeric string coerced to NaN)
+console.log(isNaN(42)); // false (valid number)
+```
+
+### Null
+
+> Why is `typeof null` an 'object' ?
+
+- **Historical Bug**
+  - The result of `typeof null` being `'object'` is considered a historical bug in JavaScript.
+
+```js
+typeof null === "object"; // true
+```
+
+- **Cause:**
+  - Limit
+    - When JavaScript was created, its original version had a 32-bit memory limit.
+  - Low bits
+    - The low bits of the binary representation for real objects are different from other types.
+    - Objects have `000` in the low bits, whereas the low bits for `null` are `0001`.
+    - The presence of `0001` in the low bits caused `typeof null` return `'object'`.
+    - This behavior was carried forward for backward compatibility reasons. Changing it would have introduced breaking changes to existing code.
+- **Caution:**
+  - It's important to note that `null` is a primitive value in JavaScript, not an object.
+  - This can lead to unexpected behaviors if not handled carefully.
+- **Check:**
+  - For more accurate comparisons , it's better use the equality operator ( === ) rather than `typeof`
+
+```js
+console.log(typeof null); // object
+
+var value = null;
+console.log(value === null); // true
+```
+
 ### Null vs Undefined
 
 > what is the different between undefined and null ?
@@ -535,9 +816,35 @@ console.log(!!sch); // false
 - Truthy
   - This includes any value that is not falsy
 
-## Keyword
+### Coercion
 
-### Variable
+> what is the `Coercion` ?
+
+**Coercion**
+
+> What is `Coercion` in JavaScript?
+
+- Conversion
+  - that automatic or implicit conversion of values from one data type to another during operations or comparisons.
+- Use
+  - This process happens behind the scenes and is intended to make different types of values work together seamlessly in expressions
+- Type
+  - Implicit
+    - automatically converts values of one type to another without the programmer explicitly requesting it.
+  - Explicit
+    - Programmers intentionally convert values from one type to another using functions or operators like `parseInt()`, `Number()`, `String()`
+
+```js
+// Implicit
+let num = 42;
+let str = "The answer is: " + num; // Implicit coercion of num to a string
+
+// Explicit
+let strNumber = "42";
+let num = Number(strNumber); // Explicit coercion of strNumber to a number
+```
+
+## Variable
 
 #### Var
 
@@ -780,7 +1087,7 @@ alert(jumps.count); // Output: 1
 
 ## Function
 
-### Type
+### List
 
 #### Arrow
 
@@ -1222,7 +1529,44 @@ commit = (...args) => {
 commit(1, 2, 4); // [ 1, 2, 4 ]
 ```
 
-#### Argument vs Parameter
+#### Parameter
+
+> what is `default parameter` in javascript function ?
+
+- **Introduce:**
+  - Introduced after ES6 to allow functions to have optional parameters with preset values.
+- **Use:**
+  - That used when parameter is not provided during the function or `undefined` is passed
+- **Syntax:**
+  - Default parameters are specified in the function's parameter list using the assignment operator (=).
+- **Before**
+  - Before default parameters, developers used the OR (`||`) operator to achieve similar functionality.
+
+```js
+// Before -> use of OR operaotr
+function add(a, b) {
+  var a = a || 0;
+  var b = b || 0;
+
+  return a + b;
+}
+
+// Now  -> assignment operator
+function add(a = 0, b = 0) {
+  return a + b;
+}
+```
+
+- **Destructuring**
+  - Can use that default parameter with object destructuring
+
+```js
+function getFirst([first, ...rest] = [0, 1]) {
+  return first;
+}
+```
+
+#### Diff
 
 > what is different between argument and parameter ?
 
@@ -1304,6 +1648,20 @@ console.log(output); // [111, 101, 102]
 - **Use Cases:**
   - is useful for operations where elements are interdependent,
   - like summing or finding averages of numeric array elements.
+
+### Pop
+
+> What does the `pop()` method ?
+
+- Remove
+  - Remove last element from an array and return that element
+
+```js
+const colors = ["red", "green", "blue"];
+const removedColor = colors.pop();
+console.log(colors); // Output: ['red', 'green']
+console.log(removedColor); // Output: 'blue'
+```
 
 ## Event
 
@@ -1430,7 +1788,8 @@ function getElement(event) {
 - Work
   - Event bubbling occurs when an event is triggered on the innermost element and then bubbles up to the outer elements in the DOM hierarchy.
 - Enable
-  - By default, event bubbling is the standard behavior in JavaScript. You don't need to set any additional parameters to enable it.
+  - By default, event bubbling is the standard behavior in JavaScript.
+  - You don't need to set any additional parameters to enable it.
 
 ```js
 document.querySelector("div").addEventListener("click", function () {
@@ -1471,7 +1830,7 @@ document.querySelector("p").addEventListener(
 );
 ```
 
-#### Difference
+#### Diff
 
 > What is the difference between the `e.preventDefault()` and `e.stopPropagation()` methods in JavaScript events?
 
@@ -1560,6 +1919,40 @@ let person = new Person("Alice", 30);
 person.greet();
 ```
 
+### New
+
+> What does the `new` keyword ?
+
+- **Usage**
+  - **Function:**
+    - Constructor functions, when used with `new`, set properties on the newly created object.
+    - Initializes a new object and binds the function call to it.
+  - **Class:**
+    - When `new` is applied to a class, it generates a new object based on the class blueprint.
+
+```javascript
+// Constructor Function -> + New -> New Object
+function Car(make, model) {
+  this.make = make;
+}
+
+const myCar = new Car("Toyota", "Camry");
+console.log(myCar.make); // Output: 'Toyota'
+
+// Class -> + New -> New Object
+class Vehicle {
+  constructor(type) {
+    this.type = type;
+  }
+}
+
+const myVehicle = new Vehicle("Car");
+```
+
+- **Case Name:**
+  - Capitalization
+    - Constructors and classes start with capital letters (e.g., `Car`, `Vehicle`) to indicate their usage with `new` when creating objects.
+
 ## Storage
 
 ### Local Storage
@@ -1618,7 +2011,237 @@ localStorage.removeItem("username");
   - Modules are extensively used in modern web development and JavaScript programming to manage and organize code by keeping related functionality together in separate files.
   - This approach reduces code complexity and enhances maintainability and debugging capabilities.
 
+## Object
+
+### Set
+
+> what is the `set` object ?
+
+- Unique Value
+
+  - The Set object in JavaScript is a new way to store unique values.
+  - That is, there are no duplicate items in the set
+
+- Syntax:
+
+  ```javascript
+  const alpha = new Set(["a", "b", "b", "b", "c"]);
+  ```
+
+- Method
+  - add
+    - for add a value to a Set
+  - remove
+    - for remove an item from Set
+  - has
+    - To check if an item exists in a Set
+  - clear
+    - To clear all items from a Set
+  - size
+    - To get the number of items in a Set
+
+```javascript
+// Create a new Set
+const alpha = new Set(["a", "b", "b", "b", "c"]);
+
+// Add a new item to the Set
+alpha.add("d");
+
+// Remove an item from the Set
+alpha.delete("b");
+
+// Check if an item exists in the Set
+alpha.has("h"); // Returns: false
+
+// Clear all items from the Set
+alpha.clear();
+
+// Get the number of items in the Set
+alpha.size; // Returns: 0
+```
+
+- **Usage:**
+  - Sets are commonly used to remove duplicate values from an array, providing a quick and efficient way to filter unique items.
+
+```javascript
+const numbers = [1, 2, 3, 4, 5, 6, 6, 7, 8, 8, 5];
+const uniqueNums = [...new Set(numbers)];
+console.log(uniqueNums); // [1, 2, 3, 4, 5, 6, 7, 8]
+```
+
+### Wrapper
+
+> What is an `Object Wrapper` in JavaScript?
+
+- Convert
+  - Refers to the automatic conversion of primitive data types (like strings, numbers, and booleans) into their corresponding object representations when a property or method is accessed on them.
+- Discard
+  - After the operation, the temporary object wrapper is discarded.
+
+```js
+let str = "Hello";
+// str first primitive string ->  then convert to object ->  then discard after operation
+console.log(str.length); // Output: 5
+```
+
 ## Async
+
+> what is async in javascript ?
+
+- Execute
+  - async are executed separately from main process of the program
+  - the program does not wait for them to finish add continues its work
+- Example
+  - connecting to and external resource with ajax
+- Handle
+  - There are different ways to handle asynchronous operations in JavaScript.
+  - Such as : callback , promise and async await
+
+> What are the ways to manage asynchronous operations?
+
+- Callbacks
+  - **Def**
+    - Simple but prone to callback hell. A function passed as an argument to another function
+  - **Pros**
+    - Simple, widely supported, and easy to understand
+  - **Cons**
+    - where nested callbacks can make code difficult to read and maintain
+- Promises
+  - **Def**
+    - Better than callbacks, with improved error handling and chaining.
+  - **Pros**
+    - Avoids callback hell, improved error handling with `.catch()`, and easier chaining.
+  - **Cons**
+    - Requires understanding of Promise concepts.
+- Async/Await:
+  - **Def**
+    - Modern , readable, and synchronous-looking asynchronous code.
+  - **Pros**
+    - Improved readability, code appears synchronous,
+    - and easy error handling with `try` and `catch
+  - **Cons**
+    - Requires understanding of Promises and modern JavaScript
+- Observables:
+
+  - **Def**
+    - A pattern widely used in reactive programming for handling asynchronous data streams.
+    - Advanced, and suitable for complex applications, especially in reactive programming paradigms.
+  - **Pros**
+    - Powerful, provides operators for advanced operations on data streams,
+    - suitable for complex applications.
+  - **Cons**
+    - Steeper learning curve, overkill for simpler applications.
+
+- **Callbacks**
+
+```javascript
+function fetchData(callback) {
+  // Asynchronous operation
+  setTimeout(() => {
+    callback(data);
+  }, 1000);
+}
+
+fetchData((data) => {
+  console.log(data);
+});
+```
+
+- **Promises:**
+
+```javascript
+function fetchData() {
+  return new Promise((resolve, reject) => {
+    // Asynchronous operation
+    setTimeout(() => {
+      if (success) {
+        resolve(data);
+      } else {
+        reject(error);
+      }
+    }, 1000);
+  });
+}
+
+fetchData()
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((error) => {
+    console.error(error);
+  });
+```
+
+- **Async/Await:**
+
+```javascript
+async function fetchData() {
+  try {
+    const data = await fetchDataFromAPI();
+    console.log(data);
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+fetchData();
+```
+
+- **Observables (RxJS):**
+
+```javascript
+import { Observable } from "rxjs";
+
+const observable = new Observable((observer) => {
+  observer.next("Data 1");
+  observer.next("Data 2");
+  observer.error("Error occurred");
+});
+
+const subscription = observable.subscribe({
+  next: (data) => console.log(data),
+  error: (error) => console.error(error),
+});
+```
+
+### Ajax
+
+> What is `AJAX` in JavaScript?
+
+- **Stand For**
+  - Asynchronous Javascript and XML
+- **Asynchronous**
+  - A technology used in web development to create dynamic and interactive user interfaces
+  - AJAX enables asynchronous communication between the client (browser) and the server
+- **Refresh**
+  - A web page can request and retrieve data from the server without refreshing the entire page.
+  - The execution process of our program does not wait
+- **XML**
+  - While XML is part of the name, AJAX can work with other data formats like JSON
+  - JSON has become more popular due to its simplicity and ease of use.
+- **XMLHttpRequest**
+  - Ajax requests are typically made using the `XMLHttpRequest` object,
+  - a built-in JavaScript object that provides methods and properties for interacting with servers
+- **Advantage**
+  - Improved User Experience
+  - Efficient Data Retrieval
+  - Interactive Web Application
+- **Example:**
+  - Here's a simple example of an AJAX request using the `XMLHttpRequest` object to fetch data from a server:
+
+```javascript
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "https://api.example.com/data", true);
+xhr.onreadystatechange = function () {
+  if (xhr.readyState == 4 && xhr.status == 200) {
+    var data = JSON.parse(xhr.responseText);
+    console.log(data);
+  }
+};
+xhr.send();
+```
+
+### Promise
 
 > What are Promises in JavaScript ?
 
@@ -1633,3 +2256,64 @@ localStorage.removeItem("username");
     - Efficiently manage successful asynchronous results.
   - Error Handling:
     - Streamline error management for asynchronous tasks.
+
+### Async/Await
+
+> what is `async/await` ?
+
+- Manage
+  - a way for handle asynchronous operations in javascript
+- Promise
+  - is built on top of promises and use of promises behind the scene
+- Functionality
+  - that is much easier , more readable and better than other methods
+- Keyword
+  - async
+    - Used before a function declaration
+    - for indicate that the function returns a promise implicitly
+  - await
+    - Used inside an async function
+    - for pause the execution until the promise is resolved,
+    - that providing a non-blocking approach to asynchronous tasks
+
+```js
+async function callApi() {
+  try {
+    const resp = await fetch("url/to/api/endpoint");
+    const data = await resp.json();
+    //do something
+  } catch (e) {
+    //
+  }
+}
+```
+
+### Diff
+
+> what is deference between `async/await` and `promise`
+
+- **Control Flow:**
+  - _Async/Await:_
+    - Synchronous appearance for asynchronous code, enhancing readability.
+  - _Promise:_
+    - Chaining promises can lead to complex, less readable code.
+- **Error Handling:**
+  - _Async/Await:_
+    - Uses `try` and `catch` blocks, making error handling intuitive.
+  - _Promise:_
+    - Requires separate `.catch()` blocks, which can be less clear in complex scenarios.
+- **Readability:**
+  - _Async/Await:_
+    - Resembles synchronous code, enhancing readability.
+  - _Promise:_
+    - Nested promises can lead to less readable, verbose code.
+- **Debugging:**
+  - _Async/Await:_
+    - Easier debugging with a synchronous-like appearance.
+  - _Promise:_
+    - Debugging can be challenging, especially in deeply nested chains.
+- **Error Stacks:**
+  - _Async/Await:_
+    - Provides accurate error stacks, aiding error tracing.
+  - _Promise:_
+    - Error stacks might lack clarity, especially in complex chains.
