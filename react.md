@@ -160,21 +160,21 @@ class PureButton extends React.PureComponent {
 
 > what is difference between `class` and `functinoal` component ?
 
-- **State Management:**
+- **State Management**
   - **Class:**
     - Suitable for managing complex local state and lifecycle methods.
     - Maintain stateful logic within the component.
   - **Function:**
     - Use hooks like `useState` and `useEffect` for managing local state and side effects.
     - Perfect for simpler state management needs.
-- **Lifecycle Methods:**
+- **Lifecycle Methods**
   - **Class:**
     - Has access to lifecycle methods like `componentDidMount`, `componentDidUpdate`, and `componentWillUnmount`.
     - Useful for operations like data fetching, subscriptions, or manual DOM manipulations.
   - **Function:**
     - Utilize the `useEffect` hook to perform side effects and cleanup.
     - Replaces most lifecycle methods and offers a more declarative approach.
-- **Readability and Simplicity:**
+- **Readability and Simplicity**
   - **Class:**
     - Can become verbose with lifecycle methods and class-based syntax.
     - Might be harder to read for simple components.
@@ -419,9 +419,79 @@ export default StateChangeComponent;
 | **Usage**      | Data passing, customization           | Managing internal data, dynamic content |
 | **Testing**    | Easier (immutable, parent-child flow) | More complex (mutable, internal scope)  |
 
+## Value
+
+### Reference
+
+> What is the use of refs?
+
+- **Remember**
+  - When you want a component to “remember” some information,
+- **Render**
+  - When you don’t want that information to trigger new renders, you can use a ref.
+- **Direct Access**
+  - Refs allow you to access DOM Element directly
+- **Use Case**
+  - which can be useful for certain task such as focusing an input element or animating an element
+- **Control DOM events**
+  - Refs allow you to attach event listeners to DOM elements and remove them when necessary. This can be useful for tasks such as implementing custom drag-and-drop functionality.
+- **Integration Library**
+  - Some libraries require refs to access DOM elements. Such as if you create a chart with libraries, you may need to pass a ref to the DOM element where you want to render the chart.
+- **Use**
+  - To use a ref in a functional component, you can use the `useRef()` hook.
+
+> How to create Refs ?
+
+- **Class components:**
+  - To create a ref in a class component, you can use the `createRef()` method.
+  - This method returns a new ref object, which you can then assign to a property on your component instance.
+
+```js
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.inputRef = React.createRef();
+  }
+
+  render() {
+    return (
+      <div>
+        <input ref={this.inputRef} />
+      </div>
+    );
+  }
+}
+```
+
+- **Functional components:**
+  - To create a ref in a functional component, you can use the `useRef()` hook.
+  - This hook returns a mutable object with a `.current` property, which is initially set to `null`.
+
+```js
+import React, { useRef } from "react";
+
+const MyComponent = () => {
+  const inputRef = useRef();
+
+  return (
+    <div>
+      <input ref={inputRef} />
+    </div>
+  );
+};
+```
+
+- **Access**
+  - You can access the DOM element it refers to by using the `.current` property.
+
+```js
+inputRef.current.focus();
+```
+
 ## Hooks
 
-### useState
+### UseState
 
 > What is the purpose of callback function as an argument of `setState()`?
 
@@ -457,11 +527,77 @@ const MyComponent = () => {
 export default MyComponent;
 ```
 
+### UseEffect
+
+### UseRef
+
+- **Return Object**
+  - This hook returns a mutable object with a `.current` property, which is initially set to `null`.
+- **Manage Data**
+  - You can use state to manage the data in your application, and React will take care of updating the DOM automatically.
+- **Access Dom**
+  - Refs are especially useful for tasks that require imperative DOM access, such as focusing an input element or animating an element.
+- **Clean Up**
+  - When using refs, it is important to clean them up when they are no longer needed. This can be done by using the `useEffect()` hook.
+
+```js
+import React, { useRef } from "react";
+
+const MyComponent = () => {
+  const inputRef = useRef();
+
+  const focusInput = () => {
+    inputRef.current.focus();
+  };
+
+  return (
+    <div>
+      <input ref={inputRef} />
+      <button onClick={focusInput}>Focus input</button>
+    </div>
+  );
+};
+```
+
 ## Render
 
 ### Client
 
 ### Server
+
+### List
+
+> Why is it important to use key props in React lists?
+
+- **Identify**
+  - Key help react Identify which item have changed , are added or are removed
+- **Preservation**
+  - Key ensure that the state of component in the list is preserved correctly
+- **Re-render**
+  - Without keys , react may re-render the components unnecessarily , causing unexpected behavior
+- **Reconciliation**
+  - Component with different keys , allowing react to avoid unnecessary re-render and reconciliation
+- **Efficiently**
+  - Keys enable React to update the DOM efficiently , reducing the time taken for re-renders
+
+```jsx
+const items = [
+  { id: 1, text: "Item 1" },
+  { id: 2, text: "Item 2" },
+  { id: 3, text: "Item 3" },
+];
+
+const ListComponent = () => {
+  return (
+    <ul>
+      {items.map((item) => (
+        // key prop is set to unique id of each item
+        <li key={item.id}>{item.text}</li>
+      ))}
+    </ul>
+  );
+};
+```
 
 ## Event
 
@@ -531,4 +667,47 @@ export default MyComponent;
 
 ### Real
 
+> What is Real DOM ?
+
+- **Stand For**
+  - Document Object Model
+- **Represent**
+  - The DOM is simple words represents the UI of your application
+- **Update**
+  - when is a change in the state of your application UI , the DOM get updated to represent that change
+- **Performance**
+  - For catch is frequently manipulating the DOM affects performance , making it slow
+
 ### Virtual
+
+> What is Virtual DOM?
+
+- **Lightweight**
+  - The Virtual DOM is a lightweight representation the real DOM
+- **Tree Data Structure**
+  - It is a tree data structure that contains all of the elements in your React application.
+- **Faster**
+  - The Virtual DOM is much faster to update than the real DOM,
+- **Performant**
+  - It makes React applications very performant.
+
+```jsx
+// React Virtual DOM
+const virtualElement = (
+  <div>
+    <h1>Hello, Virtual DOM!</h1>
+    <p>This is a virtual representation of the UI.</p>
+  </div>
+);
+```
+
+> How Virtual DOM works?
+
+1. **Representation Creation**:
+   - React **creates** a Virtual DOM (VDOM) when a component is **rendered**.
+2. **Differential Comparison**:
+   - When a component's state or props **change**, React generates a **new** VDOM representation.
+   - For Identify **Differences** compares it with the previous VDOM using a diffing **algorithm**
+3. **Efficient DOM Updates**:
+   - React updates only the **specific** parts of the real DOM that have changed, minimizing **manipulations**.
+   - This targeted approach significantly enhances application **performance**.
