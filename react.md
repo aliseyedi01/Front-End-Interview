@@ -1075,6 +1075,116 @@ const virtualElement = (
   - **Community and Support:**
     - Being a widely adopted library, React Router benefits from a large community, ensuring continuous support, updates, and a wealth of resources.
 
+### Flux
+
+> what is `Flux` ?
+
+- **Design Paradigm**
+  - An application design paradigm use as replacement for the more traditional MVC pattern
+  - That uses _unidirectional_ data flow to improve the predictability and maintainability
+- **Framework / Library**
+  - Is not a framework or a library but a new kind of architecture that complement react and the concept of unidirectional data flow
+  - Although Flux is a design pattern and not tied to any specific library, there are several libraries available that implement the Flux architecture like : fluxxor , flux and etc.
+  - In React 15 , before use of redux library , use of library such as flux
+- **React**
+  - Facebook uses this pattern internally when working with React
+
+> How `Flux` work ?
+
+- **Include**
+
+  - **Store:**
+    - The store is a single object that contains all of the application's state.
+  - **Actions:**
+    - Actions are objects that represent changes to the state of the application.
+  - **Dispatcher:**
+    - The dispatcher is responsible for dispatching actions to the store.
+  - **Views:**
+    - Views are responsible for rendering the UI of the application.
+    - They subscribe to the store for changes to the state, and they re-render when the state changes.
+
+- **Steps:**
+
+1. A view dispatches an action to the dispatcher.
+2. The dispatcher dispatches the action to the store.
+3. The store updates the state and notifies all of the subscribed views.
+4. The views re-render to reflect the new state.
+
+- **Example:**
+
+1. The user clicks a button to increment a counter.
+2. The button view dispatches an `INCREMENT_COUNTER` action to the dispatcher.
+3. The dispatcher dispatches the `INCREMENT_COUNTER` action to the store.
+4. The store updates the counter state and notifies all of the subscribed views.
+5. The counter view re-renders to reflect the new counter state.
+
+### Redux
+
+> What is Redux?
+
+- **Flux**
+  - A predictable state container for JavaScript apps based on the _Flux design pattern_.
+- **Consistent**
+  - It helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.
+- **State**
+  - An open-source JavaScript library for managing the state of an application.
+- **Size / Dependency**
+  - It is tiny (about 2kB) and has no dependencies.
+- **Library**
+  - It is commonly used with libraries/frameworks like React for building user interfaces.
+
+> What is the Core of `Redux` ?
+
+- **Store:**
+  - **Object**
+    - Redux stores the _state_ of the entire application in a single JavaScript object.
+- **Actions:**
+  - **Happened**
+    - Actions are plain JavaScript objects that describe what happened in the application.
+  - **Information**
+    - They are the only source of **information** for the store.
+  - **Type**
+    - Actions must have a type property that indicates the type of action being performed.
+  - **Payload**
+    - Actions can also have additional data called the **payload**.
+- **Reducers:**
+  - **Pure function**
+    - Reducers are pure functions that specify how the application's state changes in response to actions sent to the store.
+  - **Previous/New State**
+    - Reducers take the previous state and an action as arguments and return the **new** state.
+    - They should not modify the previous state directly but return a new state object.
+- **Dispatch:**
+  - **Method**
+    - Dispatch is a method used to send actions to the Redux store.
+  - **Update**
+    - When an action is dispatched, the store's reducer function is called, and the state is updated based on the action.
+- **Selectors:**
+  - **Function**
+    - Selectors are functions that extract specific pieces of data from the store state.
+  - **Shape**
+    - They are used to encapsulate the shape of the state and are helpful to avoid accessing the state shape directly from components.
+
+> what is the Benefits of `Redux` ?
+
+- **Predictable State Management:**
+  - Redux provides a predictable state container, making it easier to understand how data changes in the application over time.
+- **Centralized State:**
+  - By storing the application state in a single store, it becomes easier to manage and debug the application's data.
+- **Time-Travel Debugging:**
+  - Redux allows developers to trace state changes over time, enabling powerful debugging capabilities.
+- **Middleware Support:**
+  - Redux middleware can be used to perform tasks like logging actions, making asynchronous requests, etc., before they reach the reducer.
+
+> When to use Redux ?
+
+- **Manage State**
+  - Redux is beneficial for complex applications where managing state across multiple components becomes challenging.
+- **Not Directly**
+  - It's particularly useful when there is a need to share state between multiple components that are not directly connected in the component tree.
+- **Complex App**
+  - Redux is not necessary for all applications and might introduce unnecessary complexity in simpler projects.
+  - Consider using local component state in simpler cases.
+
 ## Test
 
 ### Jest
