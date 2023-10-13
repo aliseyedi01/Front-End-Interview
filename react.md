@@ -193,6 +193,138 @@ class PureButton extends React.PureComponent {
 }
 ```
 
+#### Fragment
+
+> What are fragments?
+
+- **Definition:**
+  - Lets you group elements without a wrapper node.
+- **Purpose:**
+  - To avoid adding unnecessary nodes to the DOM while grouping multiple elements
+  - Provides a cleaner way to structure components without introducing extra divs or other elements.
+- **Syntax**
+  - Using Angle Brackets (Shorthand Syntax)
+  - Using `<Fragment>` Syntax
+
+```jsx
+// way 1
+<>
+	<h1>Hello</h1>
+	<p>React Fragments</p>
+</>
+
+// way 2
+<Fragment key={post.id}>
+	<h1>Hello</h1>
+	<p>React Fragments</p>
+</Fragment>
+```
+
+> What are the Benefit Fragment ?
+
+- **No Extra DOM Nodes:**
+  - Fragments don't create an extra DOM node in the output, resulting in cleaner HTML structure.
+- **Improved Performance:**
+  - Avoiding unnecessary parent elements can improve the performance, especially in large applications.
+- **Cleaner Component Structure:**
+  - Fragments allow components to have a cleaner structure by eliminating the need for wrapping divs or other elements.
+- **Faster Rendering:**
+  - Fragments contribute to faster rendering in React applications.
+  - By eliminating the need for extra DOM nodes, can render more quickly.
+
+#### Suspense
+
+>     What is the `Suspense` ?
+
+- **Fallback**
+  - lets you display a fallback until its children have finished loading.
+- **Blank Screen**
+  - This can be useful for preventing users from seeing a blank screen while data is loading, or for handling errors that occur while loading data.
+
+```js
+const MyComponent = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    // Load data from an API
+    fetch("/api/data")
+      .then((response) => response.json())
+      .then((data) => setData(data));
+  }, []);
+
+  if (data === null) {
+    return <div>Loading...</div>;
+  }
+
+  return <div>{data.message}</div>;
+};
+
+const App = () => {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MyComponent />
+    </Suspense>
+  );
+};
+```
+
+#### StrictMode
+
+> what is the `StrictMode` ?
+
+- **Common Bug**
+  - lets you find common bugs in your components early during development.
+- **Development**
+  - A development mode only feature that checks for potential problems in an application.
+- **Render UI**
+  - It does not render any visible UI or impact the production build.
+- **Check**
+
+  - It activates additional checks and warnings for its descendant components.
+
+- StrictMode can be used to identify a number of potential issues, including:
+  - Components with unsafe life cycles
+  - Legacy string ref API usage
+  - Warning about deprecated APIs
+  - Detecting unexpected mutations
+  - Detecting unexpected side effects
+
+To use StrictMode, simply wrap your application in a `<StrictMode>` component. For example:
+
+```js
+import React from "react";
+import ReactDOM from "react-dom";
+import StrictMode from "react-strict-mode";
+
+const App = () => {
+  return (
+    <StrictMode>
+      <h1>My Application</h1>
+    </StrictMode>
+  );
+};
+
+ReactDOM.render(<App />, document.getElementById("root"));
+```
+
+> what are the benefits of `StrictMode` ?
+
+- **Identify Problems**
+  - To identify potential problems in your code early on, before they cause problems for your users.
+- **Robust Code**
+  - It can help you to write more robust and reliable code.
+- **Catch Error**
+  - It can help you to catch errors that would be difficult to find otherwise.
+
+> Why does strict mode render twice in React?
+
+- **Identify Problems**
+  - React StrictMode renders components twice in development mode to identify potential problems
+- **Difficult bug**
+  - This can be useful for catching bugs that would be difficult to find otherwise.
+- **Side Effects**
+  - This is used to detect accidental side effects in the render phase.
+
 #### Difference
 
 > what is difference between `class` and `functinoal` component ?
@@ -1028,6 +1160,186 @@ const virtualElement = (
 | **Element **     | Creates a new DOM if element updates         | Updates the JSX if element updates.         |
 | **HTML**         | Allows direct HTML updates.                  | Doesn't allow direct HTML updates.          |
 
+## Context
+
+> what is Context ?
+
+## Redux
+
+### Introduce
+
+> What is Redux?
+
+- **Design Pattern**
+  - A predictable state container for JavaScript apps based on the _Flux design pattern_.
+- **Behave Consistent**
+  - It helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.
+- **Manage State**
+  - An open-source JavaScript library for managing the state of an application.
+- **Size / Dependency**
+  - It is tiny (about 2kB) and has no dependencies.
+- **Common Library**
+  - It is commonly used with libraries/frameworks like React for building user interfaces.
+
+> What is the Core of `Redux` ?
+
+- **Store:**
+  - **Object**
+    - Redux stores the _state_ of the entire application in a single JavaScript object.
+- **Actions:**
+  - **Object**
+    - Actions are plain JavaScript objects that describe what happened in the application.
+  - **Information**
+    - They are the only source of **information** for the store.
+  - **Type**
+    - Actions must have a type property that indicates the type of action being performed.
+  - **Payload**
+    - Actions can also have additional data called the **payload**.
+- **Reducers:**
+  - **Pure function**
+    - Reducers are pure functions that specify how the application's state changes in response to actions sent to the store.
+  - **Previous/New State**
+    - Reducers take the previous state and an action as arguments and return the **new** state.
+    - They should not modify the previous state directly but return a new state object.
+- **Dispatch:**
+  - **Method**
+    - Dispatch is a method used to send actions to the Redux store.
+  - **Update**
+    - When an action is dispatched, the store's reducer function is called, and the state is updated based on the action.
+- **Selectors:**
+  - **Function**
+    - Selectors are functions that extract specific pieces of data from the store state.
+  - **Shape**
+    - They are used to encapsulate the shape of the state and are helpful to avoid accessing the state shape directly from components.
+
+> what is the Benefits of `Redux` ?
+
+- **Predictable State Management:**
+  - Redux provides a predictable state container, making it easier to understand how data changes in the application over time.
+- **Centralized State:**
+  - By storing the application state in a single store, it becomes easier to manage and debug the application's data.
+- **Time-Travel Debugging:**
+  - Redux allows developers to trace state changes over time, enabling powerful debugging capabilities.
+- **Middleware Support:**
+  - Redux middleware can be used to perform tasks like logging actions, making asynchronous requests, etc., before they reach the reducer.
+
+> When to use Redux ?
+
+- **Manage State**
+  - Redux is beneficial for complex applications where managing state across multiple components becomes challenging.
+- **Not Directly**
+  - It's particularly useful when there is a need to share state between multiple components that are not directly connected in the component tree.
+- **Complex App**
+  - Redux is not necessary for all applications and might introduce unnecessary complexity in simpler projects.
+  - Consider using local component state in simpler cases.
+
+### Differenct
+
+> What is the difference between React context and React Redux?
+
+- **Similarities**
+
+  - React context and React Redux are two different ways to manage state in React applications.
+
+- **Features**
+  - **Context:**
+    - Built-in feature in React
+  - **Redux:**
+    - Third-party library
+- **Performance:**
+  - **Context:**
+    - May lead to unnecessary re-renders in larger component trees
+  - **Redux:**
+    - Optimized for efficient re-renders, enhancing overall performance
+- **Debugging and DevTools:**
+  - **Context:**
+    - Limited debugging capabilities, basic inspection of component state
+  - **Redux:**
+    - Offers powerful tools like time-travel debugging for tracing state changes
+- **Middleware Support:**
+  - **Context:**
+    - Lacks middleware support for handling asynchronous actions
+  - **Redux:**
+    - Supports middleware, enabling advanced tasks like logging and API calls
+- **Use Cases:**
+  - **Context:**
+    - Sharing state in closely related or shallowly nested components
+    - Small-scale applications where simplicity is paramount
+  - **Redux:**
+    - Large-scale applications with complex state management needs
+    - Projects demanding predictability, centralized state, and advanced debugging
+
+| Feature                       | React context | React Redux         |
+| ----------------------------- | ------------- | ------------------- |
+| **State management paradigm** | Built-in      | Third-party library |
+| **Predictable state**         | No            | Yes                 |
+| **Centralized state**         | No            | Yes                 |
+| **Time-travel debugging**     | No            | Yes                 |
+| **Middleware support**        | No            | Yes                 |
+| **Complexity**                | Simpler       | More complex        |
+
+### Dispatch
+
+> Can I dispatch an action in reducer?
+
+- **Anti Pattern**
+  - Dispatching an action within a reducer is an **anti-pattern**.
+- **State Object**
+  - Your reducer should be _without side effects_, simply digesting the action payload and returning a new state object.
+- **Side Effect**
+  - Adding listeners and dispatching actions within the reducer can lead to chained actions and other side effects.
+
+> What is tips for avoiding dispatching actions in reducers ?
+
+- **Use middleware:**
+  - Middleware can be used to perform side effects before or after actions are dispatched to the reducer.
+  - For example, middleware can be used to log actions, make asynchronous requests, or update the user interface.
+- **Move logic to components:**
+  - If you need to perform side effects in response to an action, consider moving the logic to a component.
+  - This will help to keep the reducer pure and predictable.
+- **Use selectors:**
+  - Selectors are functions that can be used to extract specific pieces of data from the store state.
+  - Selectors can be used to avoid dispatching actions unnecessarily.
+
+### Action
+
+### Store
+
+> How to access Redux store outside a component?
+
+1. **Using the `useSelector` hook:**
+   - `useSelector` hook allows you to access the Redux store state from anywhere in your application
+
+```js
+import { useSelector } from "react-redux";
+
+const MyFunction = () => {
+  const count = useSelector((state) => state.count);
+
+  // Do something with the count variable
+};
+```
+
+2. **Using the `store` object:**
+   - You can also access the Redux store state directly using the `store` object.
+
+```js
+import { store } from "./store";
+
+const MyFunction = () => {
+  const count = store.getState().count;
+
+  // Do something with the count variable
+};
+```
+
+- Examples use outside a component :
+  - Perform an **asynchronous operation**, such as making an **HTTP** request.
+  - **Update** the state of the application based on a user interaction, such as a click **event**.
+  - **Log** the state of the application for debugging purposes.
+
+### Reducer
+
 ## Library
 
 ### Intl
@@ -1081,6 +1393,7 @@ const virtualElement = (
 
 - **Design Paradigm**
   - An application design paradigm use as replacement for the more traditional MVC pattern
+- **Unidirectional DataFlow**
   - That uses _unidirectional_ data flow to improve the predictability and maintainability
 - **Framework / Library**
   - Is not a framework or a library but a new kind of architecture that complement react and the concept of unidirectional data flow
@@ -1117,73 +1430,6 @@ const virtualElement = (
 3. The dispatcher dispatches the `INCREMENT_COUNTER` action to the store.
 4. The store updates the counter state and notifies all of the subscribed views.
 5. The counter view re-renders to reflect the new counter state.
-
-### Redux
-
-> What is Redux?
-
-- **Flux**
-  - A predictable state container for JavaScript apps based on the _Flux design pattern_.
-- **Consistent**
-  - It helps you write applications that behave consistently, run in different environments (client, server, and native), and are easy to test.
-- **State**
-  - An open-source JavaScript library for managing the state of an application.
-- **Size / Dependency**
-  - It is tiny (about 2kB) and has no dependencies.
-- **Library**
-  - It is commonly used with libraries/frameworks like React for building user interfaces.
-
-> What is the Core of `Redux` ?
-
-- **Store:**
-  - **Object**
-    - Redux stores the _state_ of the entire application in a single JavaScript object.
-- **Actions:**
-  - **Happened**
-    - Actions are plain JavaScript objects that describe what happened in the application.
-  - **Information**
-    - They are the only source of **information** for the store.
-  - **Type**
-    - Actions must have a type property that indicates the type of action being performed.
-  - **Payload**
-    - Actions can also have additional data called the **payload**.
-- **Reducers:**
-  - **Pure function**
-    - Reducers are pure functions that specify how the application's state changes in response to actions sent to the store.
-  - **Previous/New State**
-    - Reducers take the previous state and an action as arguments and return the **new** state.
-    - They should not modify the previous state directly but return a new state object.
-- **Dispatch:**
-  - **Method**
-    - Dispatch is a method used to send actions to the Redux store.
-  - **Update**
-    - When an action is dispatched, the store's reducer function is called, and the state is updated based on the action.
-- **Selectors:**
-  - **Function**
-    - Selectors are functions that extract specific pieces of data from the store state.
-  - **Shape**
-    - They are used to encapsulate the shape of the state and are helpful to avoid accessing the state shape directly from components.
-
-> what is the Benefits of `Redux` ?
-
-- **Predictable State Management:**
-  - Redux provides a predictable state container, making it easier to understand how data changes in the application over time.
-- **Centralized State:**
-  - By storing the application state in a single store, it becomes easier to manage and debug the application's data.
-- **Time-Travel Debugging:**
-  - Redux allows developers to trace state changes over time, enabling powerful debugging capabilities.
-- **Middleware Support:**
-  - Redux middleware can be used to perform tasks like logging actions, making asynchronous requests, etc., before they reach the reducer.
-
-> When to use Redux ?
-
-- **Manage State**
-  - Redux is beneficial for complex applications where managing state across multiple components becomes challenging.
-- **Not Directly**
-  - It's particularly useful when there is a need to share state between multiple components that are not directly connected in the component tree.
-- **Complex App**
-  - Redux is not necessary for all applications and might introduce unnecessary complexity in simpler projects.
-  - Consider using local component state in simpler cases.
 
 ## Test
 
