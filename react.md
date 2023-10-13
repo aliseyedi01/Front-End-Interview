@@ -170,19 +170,19 @@ const App = () => {
 
 #### Class
 
-#### Function
+#### Functional
 
 #### Pure
 
 > what is `Pure component` ?
 
-- Render
+- **Re-render**
   - Pure components are a type of React component that only **re-render** when their inputs **change**
-- Performance
+- **Imporve Performance**
   - This improve the performance of your application by reducing the number of re-renders that occur.
-- Create
+- **Create**
   - To create a pure component, you can extend the `React.PureComponent` class.
-- Compare
+- **Compare**
   - This class implements a `shouldComponentUpdate()` method that compares the current props and state to the previous props and state. If the props and state are the same, the component will not re-render.
 
 ```js
@@ -197,9 +197,9 @@ class PureButton extends React.PureComponent {
 
 > What are fragments?
 
-- **Definition:**
+- **Group Element**
   - Lets you group elements without a wrapper node.
-- **Purpose:**
+- **Avoid Adding Unnecessary Node**
   - To avoid adding unnecessary nodes to the DOM while grouping multiple elements
   - Provides a cleaner way to structure components without introducing extra divs or other elements.
 - **Syntax**
@@ -442,6 +442,63 @@ function Counter(props) {
       <button onClick={() => setCount(count + 1)}>Increment</button>
     </div>
   );
+}
+```
+
+> What is `props drilling `
+
+- **Pass Data through Component**
+  - Is a technique in react where a prop is passed down from parent to its child component
+- **Challenges and Difficulties**
+  - lead to code that is difficult to read and maintain, especially when the component hierarchy is deep.
+- **Finding a Better Way**
+  - **Context API:**
+    - Allows you to share data across components without explicitly passing props.
+    - It's especially useful when dealing with global data or themes.
+  - **State Management Libraries :**
+    - Redux
+      - that provides a predictable and unidirectional data flow.
+    - MobX
+      - that uses observables to automatically track state changes and update components.
+    - Recoil
+      - that provides a flexible and easy-to-use API for managing state.
+    - Zustand
+      - lightweight library that leverages Hooks and the Context API to manage global state.
+    - RxJS
+      - that can be used for managing state in complex and dynamic applications.
+
+```js
+// Step of Props Drilling 👇
+// Parent component
+const Parent = ({ theme }) => {
+  return (
+    <div>
+      <Child theme={theme} />
+    </div>
+  );
+};
+
+// Child component
+const Child = ({ theme }) => {
+  return (
+    <div>
+      <GrandChild theme={theme} />
+    </div>
+  );
+};
+
+// GrandChild component
+const GrandChild = ({ theme }) => {
+  return (
+    <div style={{ backgroundColor: theme }}>
+      <h1>Hello, world!</h1>
+    </div>
+  );
+};
+
+// Render the app
+function App() {
+  return <Parent theme="light" />;
 }
 ```
 
@@ -904,7 +961,389 @@ export default MyComponent;
 
 ### UseEffect
 
+> what is the `useEffect ?`
+
+- **Side Effect**
+  - Is a React hook that lets you perform side effects in your function components.
+  - Side effects are any operations that can potentially change the state of the world outside of the component, such as making HTTP requests, setting timeouts, or updating the DOM
+- **Render**
+  - That called after the component has rendered and its DOM nodes have been updated.
+- **Argument** - Function - A function that contains the side effects you want to perform. - Array  
+   - An array of dependencies. - The dependencies are used to determine whether the effect should be re-run
+- **External System**
+  - Lets you synchronize a component with an external system.
+- **Use**
+  - It is important to understand how to use `useEffect` correctly to avoid creating performance problems or memory leaks.
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.github.com/users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data));
+  }, []);
+
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+> What is Usage of useEffect ?
+
+- **Make HTTP requests**
+  - Fetch data from an API
+  - Update the state of the component based on the response
+- **Set timeouts**
+  - Trigger a function after a certain amount of time
+  - Create animations or other effects
+- **Update the DOM**
+  - Add, remove, or modify elements in the DOM
+  - Change the CSS of elements
+- **Subscribe to events**
+  - Listen for events such as clicks, mouse moves, and keyboard presses
+  - Update the state of the component based on the events
+- **Clean up any side effects that you created**
+
+  - Unsubscribe from events
+  - Cancel timeouts
+  - Remove elements from the DOM
+
+- **Making Http Request**
+
+```jsx
+import React, { useState, useEffect } from "react";
+
+function App() {
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch("https://api.github.com/users")
+      .then((response) => response.json())
+      .then((data) => setUsers(data));
+  }, []);
+
+  return (
+    <ul>
+      {users.map((user) => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
+  );
+}
+```
+
+- **Set Timeout**
+
+```jsx
+import React, { useEffect } from "react";
+
+function App() {
+  useEffect(() => {
+    setTimeout(() => {
+      // Do something after 5 seconds.
+    }, 5000);
+  }, []);
+
+  return (
+    <div>
+      <h1>This will be rendered after 5 seconds.</h1>
+    </div>
+  );
+}
+```
+
+- **Update Dom**
+
+```jsx
+import React, { useEffect } from "react";
+
+function App() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    document.title = `Count: ${count}`;
+  }, [count]);
+
+  return (
+    <div>
+      <h1>Count: {count}</h1>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+    </div>
+  );
+}
+```
+
+- **Subscribe to Event**
+
+```jsx
+import React, { useEffect } from "react";
+
+function App() {
+  const [isOnline, setIsOnline] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener("online", () => setIsOnline(true));
+    window.addEventListener("offline", () => setIsOnline(false));
+
+    return () => {
+      window.removeEventListener("online", () => setIsOnline(true));
+      window.removeEventListener("offline", () => setIsOnline(false));
+    };
+  }, []);
+
+  return (
+    <div>
+      <h1>Is online: {isOnline}</h1>
+    </div>
+  );
+}
+```
+
+- **Clean Up SideEffect**
+
+```jsx
+useEffect(() => {
+  window.addEventListener("online", () => setIsOnline(true));
+  window.addEventListener("offline", () => setIsOnline(false));
+
+  return () => {
+    window.removeEventListener("online", () => setIsOnline(true));
+    window.removeEventListener("offline", () => setIsOnline(false));
+  };
+}, []);
+```
+
+### UseLayoutEffect
+
+> What is the `useLayoutEffect`
+
+- **UseEffect**
+  - Is a version of useEffect that fires before the browser repaints the screen.
+  - It hurt performance. Prefer useEffect when possible.
+- **Synchronously**
+  - It Run Synchronously after all DOM mutations have been committed
+  - This means that the effect will be run before the browser has a chance to repaint the screen.
+- **Immediate DOM Update**
+  - Is useful for tasks that require immediate DOM layout update , such as measuring the size of a element or positioning an element relative to another element
+- **Block Browser**
+  - It is important to note that It can block the browser from repainting the screen.
+  - It can lead to performance problems, especially on mobile devices.
+
+> what is the use case of `useLayoutEffect` ?
+
+- **Measuring size**
+  - Get the height and width of an element before or after it is rendered.
+- **Positioning**
+  - Position a navigation bar relative to the top of the page.
+- **Animating**
+  - Animate the width of a progress bar as it fills up.
+- **Scrolling**
+
+  - Scroll a list element to the top when a new item is added.
+
+- Measuring Size Element
+
+```jsx
+import React, { useState, useLayoutEffect } from "react";
+
+function App() {
+  const [width, setWidth] = useState(0);
+  const [height, setHeight] = useState(0);
+
+  useLayoutEffect(() => {
+    const element = document.querySelector("#element");
+    setWidth(element.clientWidth);
+    setHeight(element.clientHeight);
+  }, []);
+
+  return (
+    <div>
+      <div id="element">This is the element.</div>
+      <p>Width: {width}px</p>
+      <p>Height: {height}px</p>
+    </div>
+  );
+}
+```
+
+- Positioning an element relative to another element:
+
+```jsx
+import React, { useState, useLayoutEffect } from "react";
+
+function App() {
+  const [tooltipPosition, setTooltipPosition] = useState({ top: 0, left: 0 });
+
+  useLayoutEffect(() => {
+    const tooltipElement = document.querySelector("#tooltip");
+    const targetElement = document.querySelector("#target");
+
+    if (tooltipElement && targetElement) {
+      const tooltipRect = tooltipElement.getBoundingClientRect();
+      const targetRect = targetElement.getBoundingClientRect();
+
+      setTooltipPosition({
+        top: targetRect.top + targetRect.height,
+        left: targetRect.left + targetRect.width / 2 - tooltipRect.width / 2,
+      });
+    }
+  }, [tooltipPosition]);
+
+  return (
+    <div>
+      <div id="target">This is the target element.</div>
+      <div
+        id="tooltip"
+        style={{ position: "absolute", top: tooltipPosition.top, left: tooltipPosition.left }}
+      >
+        This is the tooltip.
+      </div>
+    </div>
+  );
+}
+```
+
+- Animating an element:
+
+```jsx
+import React, { useState, useLayoutEffect } from "react";
+
+function App() {
+  const [progress, setProgress] = useState(0);
+
+  useLayoutEffect(() => {
+    const progressBar = document.querySelector("#progress-bar");
+
+    progressBar.style.width = `${progress}%`;
+  }, [progress]);
+
+  return (
+    <div>
+      <div
+        id="progress-bar"
+        style={{ width: `${progress}%`, height: "10px", backgroundColor: "red" }}
+      ></div>
+    </div>
+  );
+}
+```
+
+- Scrolling an element to a specific position:
+
+```jsx
+import React, { useState, useLayoutEffect } from "react";
+
+function App() {
+  const [list, setList] = useState(["Item 1", "Item 2", "Item 3"]);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
+  useLayoutEffect(() => {
+    const listElement = document.querySelector("#list");
+
+    listElement.scrollTop = selectedIndex * listElement.scrollHeight;
+  }, [selectedIndex]);
+
+  return (
+    <div>
+      <ul id="list">
+        {list.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+```
+
+> What is Difference between `useEffect` and `useLayoutEffect` ?
+
+- **When it Runs:**
+  - **useEffect**:
+    - Asynchronously after DOM mutations are committed.
+    - Suitable for tasks not requiring immediate layout calculations.
+  - **useLayoutEffect**:
+    - Synchronously after DOM mutations are committed.
+    - Ideal for immediate layout-sensitive tasks.
+- **DOM Update:**
+  - **useEffect**:
+    - For side effects without immediate DOM layout needs.
+  - **useLayoutEffect**:
+    - For side effects needing immediate DOM layout updates.
+- **Performance Impact:**
+  - **useEffect**:
+    - Lower impact, optimizing browser rendering.
+  - **useLayoutEffect**:
+    - Executes synchronously, potentially blocking rendering.
+- **Use Case:**
+  - **useEffect**:
+    - Suits non-layout-dependent tasks like data fetching or timers.
+  - **useLayoutEffect**:
+    - For layout-sensitive tasks, such as accurate DOM measurements.
+- **Recommendation:**
+  - **useEffect**:
+    - Prefer when synchronous rendering isn't critical.
+  - **useLayoutEffect**:
+    - Use for tasks requiring synchronous layout calculations.
+
+| Aspect                 | **useEffect**                            | **useLayoutEffect**                         |
+| ---------------------- | ---------------------------------------- | ------------------------------------------- |
+| **When it Runs**       | Asynchronously after DOM mutations       | Synchronously after DOM mutations           |
+| **DOM Update**         | For non-immediate DOM layout needs       | For immediate DOM layout updates            |
+| **Performance Impact** | Lower impact, doesn't block rendering    | Higher impact, can block rendering          |
+| **Use Case**           | Data fetching, timers, non-layout tasks  | Accurate DOM measurements, layout-sensitive |
+| **Recommendation**     | When synchronous rendering isn't crucial | For tasks requiring synchronous layout      |
+
+### UseMemo
+
+> what is the `UseMemo` ?
+
+- **Cache Result**
+  - Cache the result of a calculation between re-renders
+  - Returns the cached result when the inputs to the function have not changed.
+- **Memorize Component**
+  - That is used for memoization in functional components.
+  - Memoize a value (usually a computed value) so that it is not re-computed on every render
+- **Help Performance**
+  - Optimize the performance of your application by memoizing the result of expensive function calls and preventing unnecessary re-computations.
+- **Expensive Calculations**
+  - It's particularly useful for avoiding expensive calculations or computations that involve heavy processing.
+
+> What is Usage `useMemo` ?
+
+- **Optimizing Computations:**
+  - memoize expensive calculations or functions, preventing unnecessary re-execution.
+- **Derived Data:**
+  - Memoize data derived from props or state, ensuring it's recalculated only when dependencies change.
+- **Preventing Unnecessary Renders:**
+  - Memoize values used in rendering logic, avoiding unnecessary component re-renders.
+- **Callback Functions:**
+  - Memoize callback functions to prevent re-creation, especially when passed as props.
+- **API Calls:**
+  - Memoize functions making API calls, preventing redundant requests on re-renders.
+- **Component Instances:**
+  - Memoize components to prevent re-rendering unless dependencies change, optimizing complex components.
+
+> what is benefit of `useMemo` ?
+
+- **Performance Optimization:**
+  - `useMemo` optimizes performance by caching expensive calculations.
+  - It ensures that these calculations are only executed when their dependencies change, preventing unnecessary and costly computations.
+- **Avoiding Unnecessary Renders:**
+  - By memoizing values, `useMemo` prevents unnecessary component re-renders.
+  - When values remain unchanged, React skips rendering, improving the efficiency of the application and providing a more responsive user experience.
+
 ### UseRef
+
+> What is the `useRef` hook ?
 
 - **Return Object**
   - This hook returns a mutable object with a `.current` property, which is initially set to `null`.
@@ -932,6 +1371,50 @@ const MyComponent = () => {
     </div>
   );
 };
+```
+
+### UseContext
+
+> What is the `useContext` ?
+
+- **Definition**
+  - **Hooks**
+    - is a React Hook that lets you read and subscribe to context from your component.
+    - that allows functional components to access the context values provided by a nearest `Context.Provider` component in the component tree above them.
+  - **Simplifies**
+    - It simplifies the process of consuming context values without the need for a `Context.Consumer` component.
+- **Benefits**
+  - **Simplified Context Consumption:**
+    - Simplifies the process of consuming context values, making the code more concise and readable
+  - **Functional Component Integration:**
+    - It seamlessly integrates with functional components, enabling developers to leverage the power of hooks for managing context data within the component.
+
+```javascript
+import React, { useContext } from "react";
+
+// Context creation
+const MyContext = React.createContext();
+
+// Provider component
+const MyProvider = ({ children }) => {
+  const contextValue = "Hello from Context!";
+  return <MyContext.Provider value={contextValue}>{children}</MyContext.Provider>;
+};
+
+// Functional component consuming context
+const MyComponent = () => {
+  const contextData = useContext(MyContext);
+  return <div>{contextData}</div>;
+};
+
+// App usage
+function App() {
+  return (
+    <MyProvider>
+      <MyComponent />
+    </MyProvider>
+  );
+}
 ```
 
 ## Render
@@ -1162,7 +1645,72 @@ const virtualElement = (
 
 ## Context
 
-> what is Context ?
+> What is Context ?
+
+- **Share Data**
+  - It enables components to share state or methods with their children, even if they are not directly related.
+- **Sharing Without Passing**
+  - a feature that allows data to be passed through the component tree without explicitly passing props down at every level.
+
+> How use of `Context` In React ?
+
+- **Step**
+  - **Create a Context.**
+    - Create a Context using the `createContext()` function.
+    - This takes the initial value of the Context as a parameter and returns the Context created.
+  - **Provide the Context.**
+    - Wrap your root component with the `Provider` component,
+    - With this Component passing the context value as a prop
+  - **Consume the Context.**
+    - Consume the context in any descendant component using the `useContext()` hook.
+
+```jsx
+// Stp 1 : Create a context for the current theme.
+const ThemeContext = createContext({ theme: "light" });
+
+// Stp 2 : Create a provider component that provides the context value.
+const ThemeProvider = ({ children }) => {
+  const [theme, setTheme] = useState("light");
+
+  return <ThemeContext.Provider value={theme}>{children}</ThemeContext.Provider>;
+};
+
+// Stp 3 : Create a consumer component that consumes the context value.
+const ThemeConsumer = ({ children }) => {
+  const theme = useContext(ThemeContext);
+
+  return <div style={{ backgroundColor: theme }}>{children}</div>;
+};
+
+// Stp 4 : Render the app.
+function App() {
+  return (
+    <ThemeProvider>
+      <ThemeConsumer>
+        <h1>Hello, world!</h1>
+      </ThemeConsumer>
+    </ThemeProvider>
+  );
+}
+```
+
+> What is the Usage Context ?
+
+- **Theme and User Authentication:**
+  - Context is often used for providing themes or user authentication status across the application without the need to pass this information through props at each level.
+- **Language Preferences:**
+  - Language preferences, such as localization settings, can be managed using context to ensure consistent language usage across various components.
+- **Application State Management:**
+  - Context can be employed for managing global application state, making it accessible to multiple components without the complexity of prop drilling.
+
+> what are the benefit `Context` ?
+
+- **Simplified Data Sharing:**
+  - Context simplifies the process of sharing data between components, especially when dealing with deeply nested components or components that are not directly related.
+- **Reduced Prop Drilling:**
+  - It helps eliminate prop drilling by providing a direct way to access context data without passing it through intermediate components.
+- **Cleaner Component Hierarchy:**
+  - Context promotes a cleaner and more organized component hierarchy by decoupling the data-sharing logic from the components themselves.
 
 ## Redux
 
