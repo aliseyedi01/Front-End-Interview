@@ -193,6 +193,87 @@ class PureButton extends React.PureComponent {
 }
 ```
 
+#### High-Order
+
+> What is the `HOC` ?
+
+- **Stand For**
+  - Hight Order Component
+- **Input & Return Component**
+  - A React component that takes another component as input and returns a new component as output.
+- **New Component**
+  - Return a new component with : Additional props and Enhanced behavior
+- **Functional Composition**
+  - That leverage the principle of functional composition by : Wrapping component , Adding extra feature or behaviors
+- **Pure Component**
+  - Both HOCs and Pure Components in React share the similarity of enhancing component functionality without altering the original component's behavior.
+  - HOCs wrap components, adding features, while Pure Components optimize rendering without altering behavior.
+
+```jsx
+import React from "react";
+import { useAuth } from "./useAuth";
+
+function AuthenticatedComponent(Component) {
+  const user = useAuth();
+
+  if (!user) {
+    return <div>Please log in to access this page.</div>;
+  }
+
+  return <Component />;
+}
+
+function App() {
+  return (
+    <AuthenticatedComponent>
+      <h1>This is a protected page.</h1>
+    </AuthenticatedComponent>
+  );
+}
+```
+
+> What are the use Cases of HOC ?
+
+- **Reusability:**
+  - HOCs encapsulate common logic, enabling multiple components to share it without redundancy, promoting code reusability and maintainability.
+- **Conditional Rendering:**
+  - HOCs can conditionally render components based on factors such as authentication status or user permissions, allowing dynamic component behavior.
+- **Data Fetching:**
+  - HOCs handle data fetching operations, making API calls and passing data as props to components.
+  - This separation keeps data logic separate from presentation logic.
+- **State Management:**
+  - HOCs manage stateful logic, handling form inputs, managing local component state, or even integrating with state management libraries. Components remain focused on rendering.
+- **Props Manipulation:**
+  - HOCs can modify or enhance component props before rendering, injecting additional props or transforming existing ones, allowing for flexible component interfaces.
+- **Route Protection:**
+  - HOCs can protect routes by checking user authentication or authorization.
+  - If a user lacks access rights, the HOC can redirect them to a login page or another appropriate route, ensuring security.
+
+> What similarities exist between HOCs and Pure Components?
+
+- **Enhancement Without Modification:**
+  - Both HOCs and Pure Components enhance functionality without altering the core behavior of the original component.
+- **Reusability:**
+  - Both concepts promote code reuse and modularity in React applications, ensuring efficient and clean component design.
+- **Efficient Rendering:**
+  - Both techniques optimize rendering.
+  - HOCs can prevent unnecessary renders by memoizing components, and Pure Components ensure efficient re-rendering through shallow prop and state comparisons.
+
+```javascript
+// HOC -> enhanced functionality without altering the wrappedComponent
+const withLogging = (WrappedComponent) => {
+  return (props) => {
+    console.log(`Component is rendered with props:`, props);
+    return <WrappedComponent {...props} />;
+  };
+};
+
+// Pure Component -> preventing unnecessary re-renders based on props changes
+const PureComponentExample = React.memo(({ data }) => {
+  return <div>{data}</div>;
+});
+```
+
 #### Fragment
 
 > What are fragments?
@@ -1319,17 +1400,17 @@ function App() {
 
 > What is Usage `useMemo` ?
 
-- **Optimizing Computations:**
+- **Optimizing Computations**
   - memoize expensive calculations or functions, preventing unnecessary re-execution.
-- **Derived Data:**
+- **Derived Data**
   - Memoize data derived from props or state, ensuring it's recalculated only when dependencies change.
-- **Preventing Unnecessary Renders:**
+- **Preventing Unnecessary Renders**
   - Memoize values used in rendering logic, avoiding unnecessary component re-renders.
-- **Callback Functions:**
+- **Callback Functions**
   - Memoize callback functions to prevent re-creation, especially when passed as props.
 - **API Calls:**
   - Memoize functions making API calls, preventing redundant requests on re-renders.
-- **Component Instances:**
+- **Component Instances**
   - Memoize components to prevent re-rendering unless dependencies change, optimizing complex components.
 
 > what is benefit of `useMemo` ?
@@ -1340,6 +1421,84 @@ function App() {
 - **Avoiding Unnecessary Renders:**
   - By memoizing values, `useMemo` prevents unnecessary component re-renders.
   - When values remain unchanged, React skips rendering, improving the efficiency of the application and providing a more responsive user experience.
+
+### UseCallBack
+
+> What is the `useCallBack`
+
+- **Cache Function**
+  - A React Hook that lets you cache a function definition between re-renders.
+- **Return Memorized Function**
+  - It returns a memoized callback functions .
+  - This means that the function will only be recreated if one of its dependencies changes
+- **Preventing Unnecessary re-renders**
+  - This can be useful for preventing unnecessary re-renders of components
+
+> What is the usage of `useCallBack` hook ?
+
+- **Caching Functions:**
+  - When caching functions , ensuring consistent references across re-renders.
+- **Optimizing Performance:**
+  - Optimizes rendering performance, especially when functions are passed to child components.
+- **Preventing Unnecessary Re-renders:**
+  - Prevents unnecessary re-renders of child components by stabilizing function references.
+- **Preventing Excessive `useEffect` Calls:**
+  - Functions used inside `useEffect` can be wrapped with `useCallback`
+  - For prevent the effect from firing too often due to function reference changes.
+  - This is particularly useful when functions are used as dependencies inside effects.
+- **Optimizing Custom Hooks:**
+  - In custom Hooks, it's recommended to wrap functions returned by this Hook
+  - This allows to optimize their code by memoizing the functions if needed.
+
+> What is the difference between `useMemo` and `useCallBack` ?
+
+- **Similarities**
+
+  - **Optimize Performance**
+    - react hook that can be used to optimize the performance by memorizing values of functions
+  - **Function , Array**
+    - Accept a function and an array of dependencies as arguments, but return different things.
+
+- **Differences**
+  - **Return**
+    - **useMemo**
+      - memorized value
+    - **useCallBack**
+      - memorized callBack function
+  - **Use Case**
+    - **useMemo**
+      - Caching expensive calculations or objects
+    - **useCallBack**
+      - preventing unnecessary re-renders when passing callback functions
+
+| Feature   | useMemo                                   | useCallback                                                       |
+| --------- | ----------------------------------------- | ----------------------------------------------------------------- |
+| Returns   | Memoized value                            | Memoized callback function                                        |
+| Use cases | Caching expensive calculations or objects | Preventing unnecessary re-renders when passing callback functions |
+
+```js
+import React, { useMemo, useCallback } from "react";
+
+const MyComponent = () => {
+  const [selectedNum, setSelectedNum] = useState(100);
+
+  const expensiveCalculation = useMemo(() => {
+    // Perform an expensive calculation here
+    return result;
+  }, [selectedNum]);
+
+  const handleClick = useCallback(() => {
+    // Do something with the expensive calculation here
+  }, [expensiveCalculation]);
+
+  return (
+    <div>
+      <p>The result of the expensive calculation is: {expensiveCalculation}</p>
+      <button onClick={handleClick}>Click me!</button>
+    </div>
+  );
+};
+```
 
 ### UseRef
 
@@ -1456,6 +1615,41 @@ const ListComponent = () => {
   );
 };
 ```
+
+> Why should not use index as key in React ?
+
+- **Bad performance:**
+  - When use index , React re-render the entire list even if only a single item in the list changes.
+  - React cannot track which items in the list have changed if the keys are just indices.
+- **Unstable keys:**
+  - The index of an item in a list can change if you add or remove items from the list.
+  - This can cause React to re-render the wrong items, which can lead to unexpected behavior.
+- **Difficult to debug:**
+  - If you are using index as key, it can be difficult to debug why React is re-rendering certain items.
+  - Index of an item in a list can change, so you cannot simply look at the key to determine which item is being re-rendered.
+
+> When can use index and unique as key in react ?
+
+|            | **Index Key**         | **Unique Key**    |
+| ---------- | --------------------- | ----------------- |
+| **Static** | For static data.      | For dynamic data. |
+| **Order**  | Order doesn't matter. | Order-sensitive.  |
+| **ID**     | No unique IDs.        | Unique IDs.       |
+
+- **Index Key**
+  - **Static Data:**
+    - Used when the data is static and does not change.
+  - **Order Independence:**
+    - when the order of items does not matter, and operations like filtering are not happened
+  - **ID Absence:**
+    - Appropriate when there is no unique identifier (ID) available for each item in the list.
+- **Unique Key**
+  - **Dynamic Data:**
+    - When the data is dynamic and may change.
+  - **Order Sensitivity:**
+    - When operations like sorting, filtering, removing, or adding items are expected.
+  - **ID Availability:**
+    - When there is a unique identifier for each item in the list.
 
 ## Event
 
@@ -1760,7 +1954,7 @@ function App() {
   - **Shape**
     - They are used to encapsulate the shape of the state and are helpful to avoid accessing the state shape directly from components.
 
-> what is the Benefits of `Redux` ?
+> what are the Benefits of `Redux` ?
 
 - **Predictable State Management:**
   - Redux provides a predictable state container, making it easier to understand how data changes in the application over time.
