@@ -15,20 +15,20 @@
 
 > what are the Benefits of Reacts ?
 
-- **Universal Application:**
-  - Supports both client-side and server-side rendering, ensuring versatile deployment options.
-- **Efficient Testing:**
-  - Facilitates unit testing and integrates seamlessly with tools like Jest, simplifying the testing process.
-- **Component-Based:**
-  - Promotes code reusability and maintainability through modular, self-contained UI components.
 - **Virtual DOM:**
   - Enhances performance by updating only changed parts of the DOM, improving user experience.
 - **JSX (JavaScript XML):**
   - Allows writing HTML-like code in JavaScript, enhancing readability and simplifying UI management.
+- **Component-Based:**
+  - Promotes code reusability and maintainability through modular, self-contained UI components.
+- **Unidirectional Data Flow**
+  - React follows a one-way data binding , making it easier to track and debug data changes
+- **Universal Application:**
+  - Supports both client-side and server-side rendering, ensuring versatile deployment options.
 - **Easy Integration:**
   - Easily integrates into existing projects, enabling incremental upgrades and A/B testing.
-- **Developer Tools:**
-  - Offers powerful tools like React DevTools for component inspection, state tracking, and debugging, enhancing productivity.
+- **Efficient Testing:**
+  - Facilitates unit testing and integrates seamlessly with tools like Jest, simplifying the testing process.
 - **Performance Optimization:**
   - Utilizes virtual DOM, memoization, and PureComponent for efficient rendering, with tools like React Profiler for performance tuning.
 - **React Native:**
@@ -36,7 +36,7 @@
 
 > What are the limitations of React?
 
-- **Limited Scope**:
+- **Limited Scope**
   - React serves as a view library, not a comprehensive framework, requiring additional components for complete application development.
 - **Integration Complexity**:
   - Integrating React into traditional MVC frameworks demands extra configuration and setup efforts.
@@ -59,11 +59,13 @@
 
 - **Stand For**
   - JavaScript XML
-- **Html-like**
-  - Is a syntax _extension_ for Javascript that lets you write _HTML-Like_ Markup inside JS file
-- **Prefer**
-  - Although there are other ways to write components, most React developers prefer the conciseness of JSX, and most codebases use it
-- **Convert**
+- **Extension**
+  - Is a syntax _extension_ for Javascript
+- **Html-Like**
+  - that lets you write _HTML-Like_ Markup inside JS file
+- **Element**
+  - It easier to create and manipulate react Element
+- **Convert Js**
   - JSX can be converted to JS using a transpiler, such as Babel.
   - This allows you to use JSX even in browsers that do not support it natively.
 
@@ -75,14 +77,14 @@ const element = <h1>Hello, world!</h1>;
 
 > Do we have to use JSX format for React files?
 
-- Don't Need
+- **Don't Need**
   - you do not have to use JSX format for React files.
-- Pure
+- **Pure**
   - You can write React components in pure JavaScript,
-- Easier
+- **Easier**
   - Many people find JSX to be more expressive and easier to read and maintain.
 
-> what is different between `JSX vs JS` ?
+> What is different between `JSX vs JS` ?
 
 - **Syntax**
   - JS
@@ -105,13 +107,27 @@ const element = React.createElement("h1", null, "Hello, world!");
 
 ## Component
 
+### Definition
+
+> What is React Component ?
+
+- **Module**
+  - A reusable and self-contained module
+- **Function / Class**
+  - It can be a Function or Class Component
+- **Encapsulate Logic & UI**
+  - That represent a part of the user interface
+  - Component encapsulate logic and UI
+- **Complex App**
+  - It easier to develop and maintain complex applications
+
 > How to create components in React ?
 
-- **Ways**
-  - Functional
+- **Type**
+  - **Functional**
     - They are just JavaScript **functions** that return an element and **simpler** to create and use
     - That accept **props** object as the first parameter and **return** React elements to render
-  - Class
+  - **Class**
     - They are more **complex**, but they offer more **features**, such as state and lifecycle method
 
 ```js
@@ -132,22 +148,22 @@ class Button extends React.Component {
 }
 ```
 
-> What is the difference between Element and Component?
+> What is the difference between Element and Component of React ?
 
 - **Definition:**
-  - Element:
+  - **Element**:
     - A plain object describing what should appear on the screen in terms of DOM nodes or other components.
-  - Component:
+  - **Component**:
     - A reusable piece of code defining how a UI segment should look and behave.
 - **Methods:**
-  - Element:
+  - **Element**:
     - Does not have any inherent methods.
-  - Component:
+  - **Component**:
     - Can have state and lifecycle methods.
 - **Mutability:**
-  - Element:
+  - **Element**:
     - Once an element is created, it cannot be mutated.
-  - Component:
+  - **Component**:
     - Can be altered even after its creation.
 
 ```js
@@ -169,6 +185,22 @@ const App = () => {
 ### List
 
 #### Class
+
+> What are the different lifecycle methods in React?
+
+- **Mounting:**
+  - `constructor()`: Initializes state and event handlers.
+  - `static getDerivedStateFromProps()`: Updates state based on new props.
+  - `render()`: Renders the component UI.
+  - `componentDidMount()`: Performs side effects after the component is mounted.
+- **Updating:**
+  - `static getDerivedStateFromProps()`: Updates state based on new props.
+  - `shouldComponentUpdate()`: Prevents unnecessary updates.
+  - `render()`: Renders the updated component UI.
+  - `getSnapshotBeforeUpdate()`: Takes a DOM snapshot before the update.
+  - `componentDidUpdate()`: Performs side effects after the component is updated.
+- **Unmounting:**
+  - `componentWillUnmount()`: Performs cleanup tasks before the component is unmounted.
 
 #### Functional
 
@@ -406,10 +438,54 @@ ReactDOM.render(<App />, document.getElementById("root"));
 - **Side Effects**
   - This is used to detect accidental side effects in the render phase.
 
+### Error boundaries
+
+> What is the Error Boundaries in React ?
+
+- **Catch Error and Display Fallback UI**
+  - they are components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.
+- **Better UX**
+
+  - They help isolate errors and provide a better user experience by gracefully handling errors at the component level
+
+- **Example Use in Functional Component**
+
+```jsx
+import ErrorBoundary from "react-error-boundary";
+
+const MyErrorBoundary = ({ children }) => {
+  return <ErrorBoundary fallback={<div>Something went wrong.</div>}>{children}</ErrorBoundary>;
+};
+
+const MyComponent = () => {
+  throw new Error("Something went wrong!");
+};
+
+const App = () => {
+  return (
+    <MyErrorBoundary>
+      <MyComponent />
+    </MyErrorBoundary>
+  );
+};
+
+export default App;
+```
+
 #### Difference
 
 > what is difference between `class` and `functinoal` component ?
 
+- **Defined**
+  - **Class:**
+    - Define with ES6 class
+  - **Function:**
+    - Define with JavaScript Functions
+- **State**
+  - **Class:**
+    - have additional feature like lifecycle methods and state management
+  - **Function:**
+    - they are stateless
 - **State Management**
   - **Class:**
     - Suitable for managing complex local state and lifecycle methods.
@@ -419,7 +495,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
     - Perfect for simpler state management needs.
 - **Lifecycle Methods**
   - **Class:**
-    - Has access to lifecycle methods like `componentDidMount`, `componentDidUpdate`, and `componentWillUnmount`.
+    - Has access to lifecycle methods like `componentDidMount`, `componentDidUpdate`,
     - Useful for operations like data fetching, subscriptions, or manual DOM manipulations.
   - **Function:**
     - Utilize the `useEffect` hook to perform side effects and cleanup.
@@ -453,7 +529,7 @@ ReactDOM.render(<App />, document.getElementById("root"));
 - **Now**
   - Now you for state and lifecycle , you can use of _Hooks_ and _Functional Component_
 
-### Data
+### Section
 
 #### Props
 
@@ -502,7 +578,7 @@ const ChildComponent = ({ user }) => {
 };
 ```
 
-> why can't update props in react ?
+> Why can't update props in react ?
 
 - **Pure Function**
   - To ensure that components are pure functions, meaning that they should always return the same output given the same input.
@@ -583,23 +659,53 @@ function App() {
 }
 ```
 
+> What the `Prop children` ?
+
+- **Pass All React Components:**
+  - It is a special prop that is automatically passed to all React components.
+- **Display Element between Open and Close Tags:**
+  - `children` contains elements placed between the opening and closing tags of a component.
+- **Used for Passing JSX or Plain Text:**
+  - This prop allows the passing of JSX elements or plain text as children to a component.
+
+```jsx
+import Avatar from "./Avatar.js";
+
+function Card({ children }) {
+  return <div className="card">{children}</div>;
+}
+
+export default function Profile() {
+  return (
+    <Card>
+      <Avatar
+        size={100}
+        person={{
+          name: "Katsuko Saruhashi",
+          imageId: "YfeOqp2",
+        }}
+      />
+    </Card>
+  );
+}
+```
+
 #### State
 
-> what is the `State` ?
+> What is the `State` ?
 
-- Store
+- **Store Value**
   - state can hold any kind of javascript value including object
-- Update
-  - Immutability
-    - When updating objects in React state, it's crucial to maintain immutability. This means not changing objects directly that are stored in the state.
-  - Creating Copies
-    - To update an object in the state, you should create a new object or make a copy of an existing one. The updated copy is then set as the new state.
-- Re-render
+- **Re-render Component**
   - Components re-render when the state changes
-- Manage
-  - Class Component:
+- **Not Change Directly**
+  - Shouldn’t change objects that you hold in the React state directly.
+- **Update Object**
+  - To update an object in the state, should create a new object or make a copy of an existing one.
+- **Manage**
+  - **Class Component**:
     - Use `this.state` for state management.
-  - Functional Component:
+  - **Functional Component**:
     - Utilize React hooks like `useState` for managing state in functional components.
 
 ```js
@@ -644,6 +750,65 @@ const FunctionalComponent = () => {
     </div>
   );
 };
+```
+
+> How Update a state in Component ?
+
+- **Ways**
+
+  - **Functional**
+    - use the `useState` hook
+  - **Class**
+    - use the `setState` method
+
+- **Functional Component**
+
+```jsx
+import React, { useState } from "react";
+
+function Counter() {
+  const [count, setCount] = useState(0);
+
+  function handleClick() {
+    setCount(count + 1);
+  }
+
+  return (
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={handleClick}>Increment</button>
+    </div>
+  );
+}
+
+export default Counter;
+```
+
+- **Class Component**
+
+```jsx
+import React, { Component } from "react";
+
+class Counter extends Component {
+  state = {
+    count: 0,
+  };
+
+  handleClick = () => {
+    this.setState({ count: this.state.count + 1 });
+  };
+
+  render() {
+    return (
+      <div>
+        <p>Count: {this.state.count}</p>
+        <button onClick={this.handleClick}>Increment</button>
+      </div>
+    );
+  }
+}
+
+export default Counter;
 ```
 
 > Why should we not update the state directly?
@@ -712,16 +877,77 @@ const StateChangeComponent = () => {
 export default StateChangeComponent;
 ```
 
+> What is `defaultProp` in React ?
+
+- **Default Value**
+  - That allows to provide default values for props
+- **Use if not provided props**
+  - If a prop is not provided when the component is used, the default value specified in defaultProps will be used instead
+- **Benefit**
+  - To prevent your component from breaking if a required prop is not passed in.
+  - To make your component more reusable, by allowing users to override the default values if needed.
+
+```jsx
+const Button = ({ label, onClick }) => {
+  return (
+    <button onClick={onClick}>
+      {label}
+    </button>
+  );
+};
+
+Button.defaultProps = {
+  label: "Click me!",
+  onClick: () => {},
+};
+
+
+// With default props:
+<Button />
+// Renders a button with the text "Click me!" and no onClick handler.
+
+// Without default props:
+<Button label="My button" onClick={() => alert("Clicked!")} />
+// Renders a button with the text "My button" and an onClick handler that displays an
+```
+
+**Benefits of using defaultProps**
+
+- Default props can help to make your code more robust and reusable.
+- They can also help to prevent errors from occurring if a required prop is not passed in.
+- Additionally, default props can make your components more flexible and adaptable to different use cases.
+
+**Conclusion** `defaultProps` is a powerful feature in React that can be used to improve the quality and usability of your code. It is important to note that default props should not be used as a replacement for validation. You should always validate your props to ensure that they are valid before using them in your component.
+
 #### Element
 
 > what is `Element` in React ?
 
-- **Definition**:
-  - An element in React represents a lightweight, plain JavaScript object that describes a component instance or a native DOM component (e.g., `<div>` or `<span>`).
+- **Plain Javascript Object**
+  - A plain JavaScript object that describes a component instance or a native DOM component
+  - e.g., `<div>` or `<span>`
 - **Immutability**
-  - Elements in React are immutable. Once an element is created, it cannot be changed or modified. Any updates require creating a new element.
-- **Create**
+  - Elements are immutable. once an element is created, it cannot be changed or modified.
+  - Any updates require creating a new element.
+- **Structure UI**
   - Elements are the building blocks of React applications, representing the structure of the UI.
+- **Component**
+  - Elements are composed within components to create complex UI structures.
+
+```jsx
+const MyComponent = () => {
+  return (
+    <div>
+      <h1>Hello, World!</h1>
+      <p>This is a React element.</p>
+    </div>
+  );
+};
+```
+
+> How Create a Element and Render that ?
+
+- **Create**
   - They are created using JSX syntax or `React.createElement()` function.
 
 ```jsx
@@ -740,18 +966,37 @@ const element = <div>Hello, World!</div>;
 ReactDOM.render(element, document.getElementById("root"));
 ```
 
-- **Composition**
-  - Elements are composed within components to create complex UI structures.
+> What is the cloneElement ?
+
+- **Definition**
+  - **Element With New Props**
+    - a clone element is an element that is created from an existing element, but with some of its properties changed.
+- **Useful**
+
+  - **Change Behavior Component**
+    - It used in cases where you need to enhance or modify the behavior of a child component
+
+- **Example**
 
 ```jsx
-const MyComponent = () => {
-  return (
-    <div>
-      <h1>Hello, World!</h1>
-      <p>This is a React element.</p>
-    </div>
-  );
+import React from "react";
+
+const App = () => {
+  const originalElement = <div>This is the original element.</div>;
+
+  // Create a clone element with the className prop set to 'my-class'
+  const clonedElement = React.cloneElement(originalElement, {
+    className: "my-class",
+  });
+
+  // Render the cloned element
+  return clonedElement;
 };
+
+export default App;
+
+// This code will render the following HTML to the DOM
+<div class="my-class">This is the original element.</div>;
 ```
 
 #### Difference
@@ -1004,7 +1249,89 @@ inputRef.current.focus();
 
 ## Hooks
 
-### UseState
+### Definition
+
+> What is the Hook in React ?
+
+- **Function**
+  - React Hooks are function Javascript
+- **Functional Component**
+  - It use in function component
+- **Use React Features**
+  - Hooks let you use different React features from your components without writing a class
+- **Built-In Hooks**
+  - There are built-in hook such as useState , useEffect , for manage component state and lifecycle
+- **Custom Hooks**
+  - They are user-defined functions that can be created to extract and reuse stateful logic
+  - They allow you organize the logic of a component into a reusable function
+
+### Custom
+
+> What is the Custom Hooks ?
+
+- **User-defined**
+  - Custom hooks are user-defined functions in react
+- **Combine**
+  - They can combine multiple Hooks and other functions to encapsulate complex behavior.
+- **Reusable**
+  - They allow developers to extract component logic into reusable functions
+- **Start Use**
+  - They start with "use" as a convention
+
+```jsx
+import { useState, useEffect } from "react";
+
+function useCustomHook(initialValue) {
+  const [value, setValue] = useState(initialValue);
+
+  useEffect(
+    () => {
+      // Effect logic here
+      return () => {
+        // Cleanup logic here (if needed)
+      };
+    },
+    [
+      /* dependencies */
+    ],
+  );
+
+  // Custom logic here
+
+  return [value, setValue];
+}
+
+// Usage in a component
+// const [customValue, setCustomValue] = useCustomHook(initialValue);
+```
+
+### Different
+
+> What is different between built-in and custom hook ?
+
+- **Define:**
+  - **Built-in:**
+    - Predefined functions provided by React.
+  - **Custom:**
+    - User-defined functions created for specific application needs.
+- **Purpose:**
+  - **Built-in**
+    - Cover fundamental component behavior (e.g., state, effects).
+    - Standardized, general-purpose solutions for common tasks.
+  - **Custom**
+    - Encapsulate specific, reusable logic tailored to applications.
+    - Promote code reuse and modularity within the application.
+- **Abstraction and Complexity:**
+  - **Built-in**
+    - Offer basic abstractions for common tasks.
+    - Simple and easy to use due to standardized nature.
+  - **Custom**
+    - Enable higher-level abstractions for unique application needs.
+    - Can handle complex logic, ensuring a clean component structure.
+
+### Built-In
+
+#### UseState
 
 > What is the purpose of callback function as an argument of `setState()`?
 
@@ -1040,7 +1367,7 @@ const MyComponent = () => {
 export default MyComponent;
 ```
 
-### UseEffect
+#### UseEffect
 
 > what is the `useEffect ?`
 
@@ -1203,7 +1530,7 @@ useEffect(() => {
 }, []);
 ```
 
-### UseLayoutEffect
+#### UseLayoutEffect
 
 > What is the `useLayoutEffect`
 
@@ -1383,7 +1710,7 @@ function App() {
 | **Use Case**           | Data fetching, timers, non-layout tasks  | Accurate DOM measurements, layout-sensitive |
 | **Recommendation**     | When synchronous rendering isn't crucial | For tasks requiring synchronous layout      |
 
-### UseMemo
+#### UseMemo
 
 > what is the `UseMemo` ?
 
@@ -1422,7 +1749,7 @@ function App() {
   - By memoizing values, `useMemo` prevents unnecessary component re-renders.
   - When values remain unchanged, React skips rendering, improving the efficiency of the application and providing a more responsive user experience.
 
-### UseCallBack
+#### UseCallBack
 
 > What is the `useCallBack`
 
@@ -1500,7 +1827,7 @@ const MyComponent = () => {
 };
 ```
 
-### UseRef
+#### UseRef
 
 > What is the `useRef` hook ?
 
@@ -1532,7 +1859,7 @@ const MyComponent = () => {
 };
 ```
 
-### UseContext
+#### UseContext
 
 > What is the `useContext` ?
 
@@ -1579,6 +1906,142 @@ function App() {
 ## Render
 
 ### Client
+
+> What are portals in React?
+
+- **Render Different Part Of DOM**
+  - lets you render some children into a different part of the DOM.
+- **Render Outside Hierarchy**
+  - A way to render React components into a DOM node outside of the component's parent hierarchy.
+- **Benefits:**
+  - Improves accessibility by allowing users to navigate and focus on important UI elements.
+- **Useful**
+
+  - Useful for creating modals, tooltips, and UI elements positioned outside the normal flow of the page.
+
+- **The following code shows how to create a portal that renders a modal**
+
+```jsx
+import React, { useState, createPortal } from "react";
+
+const Modal = ({ children }) => {
+  return (
+    <div className="modal">
+      <div className="modal-content">{children}</div>
+    </div>
+  );
+};
+
+const App = () => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  const handleOpenModal = () => {
+    setIsOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsOpen(false);
+  };
+
+  if (isOpen) {
+    return createPortal(
+      <Modal>
+        <h1>This is a modal</h1>
+        <button onClick={handleCloseModal}>Close</button>
+      </Modal>,
+      document.getElementById("modal-root"),
+    );
+  }
+
+  return (
+    <div>
+      <button onClick={handleOpenModal}>Open Modal</button>
+    </div>
+  );
+};
+```
+
+> How can you prevent a component from rendering in React?
+
+- **Technique**
+
+  - **Return null from the render method:**
+    - Simplest method to prevent rendering; use with caution as it affects children.
+  - **Use React.memo() HOC:**
+    - Memoizes functional components, preventing re-render if props don't change.
+  - **Use useMemo Hook:**
+    - Memoizes expensive calculations, recalculating only when dependencies change.
+  - **Use useCallback Hook:**
+    - Memoizes callback functions, preventing recreation on each render.
+  - **Use shouldComponentUpdate (Class Components):**
+    - Lifecycle method to prevent unnecessary updates; specific to class components.
+
+- **Return null from the render method:**
+
+  ```jsx
+  function MyComponent() {
+    const shouldRenderComponent = false;
+
+    if (!shouldRenderComponent) {
+      return null;
+    }
+
+    return <div>This component will render.</div>;
+  }
+  ```
+
+- **Using the `React.memo()` higher-order component:**
+
+  ```jsx
+  import React, { memo } from "react";
+
+  function MyComponent({ value }) {
+    return <div>Value: {value}</div>;
+  }
+
+  const MemoizedMyComponent = memo(MyComponent);
+  ```
+
+- **Using the `useMemo` Hook:**
+
+  ```jsx
+  import React, { useMemo } from "react";
+
+  function MyComponent({ value }) {
+    const memoizedValue = useMemo(() => computeExpensiveValue(value), [value]);
+
+    return <div>Computed Value: {memoizedValue}</div>;
+  }
+  ```
+
+- **Using the `useCallback` Hook:**
+
+  ```jsx
+  import React, { useCallback } from "react";
+
+  function MyComponent({ onClick }) {
+    const handleClick = useCallback(() => {
+      // Handle click logic
+    }, []);
+
+    return <button onClick={handleClick}>Click me</button>;
+  }
+  ```
+
+- **Using the `shouldComponentUpdate` method (Class Components):**
+
+  ```jsx
+  class MyComponent extends React.Component {
+    shouldComponentUpdate(nextProps) {
+      // Logic to determine if the component should update based on nextProps
+      return nextProps.someProp !== this.props.someProp;
+    }
+
+    render() {
+      return <div>Component content</div>;
+    }
+  }
+  ```
 
 ### Server
 
@@ -1837,14 +2300,18 @@ const virtualElement = (
 | **Element **     | Creates a new DOM if element updates         | Updates the JSX if element updates.         |
 | **HTML**         | Allows direct HTML updates.                  | Doesn't allow direct HTML updates.          |
 
-## Context
+## Data
 
-> What is Context ?
+### Context API
+
+> What is Context API ?
 
 - **Share Data**
   - It enables components to share state or methods with their children, even if they are not directly related.
 - **Sharing Without Passing**
-  - a feature that allows data to be passed through the component tree without explicitly passing props down at every level.
+  - A feature that allows data to be passed through the component tree without explicitly passing props down at every level.
+- **Globe State**
+  - It allows to create a global state accessible to any component within a designated context
 
 > How use of `Context` In React ?
 
@@ -1906,9 +2373,9 @@ function App() {
 - **Cleaner Component Hierarchy:**
   - Context promotes a cleaner and more organized component hierarchy by decoupling the data-sharing logic from the components themselves.
 
-## Redux
+### Redux
 
-### Introduce
+#### Definition
 
 > What is Redux?
 
@@ -1975,7 +2442,7 @@ function App() {
   - Redux is not necessary for all applications and might introduce unnecessary complexity in simpler projects.
   - Consider using local component state in simpler cases.
 
-### Differenct
+#### Different
 
 > What is the difference between React context and React Redux?
 
@@ -2020,7 +2487,7 @@ function App() {
 | **Middleware support**        | No            | Yes                 |
 | **Complexity**                | Simpler       | More complex        |
 
-### Dispatch
+#### Dispatch
 
 > Can I dispatch an action in reducer?
 
@@ -2043,9 +2510,9 @@ function App() {
   - Selectors are functions that can be used to extract specific pieces of data from the store state.
   - Selectors can be used to avoid dispatching actions unnecessarily.
 
-### Action
+#### Action
 
-### Store
+#### Store
 
 > How to access Redux store outside a component?
 
@@ -2080,7 +2547,7 @@ const MyFunction = () => {
   - **Update** the state of the application based on a user interaction, such as a click **event**.
   - **Log** the state of the application for debugging purposes.
 
-### Reducer
+#### Reducer
 
 ## Library
 
@@ -2131,7 +2598,7 @@ const MyFunction = () => {
 
 ### Flux
 
-> what is `Flux` ?
+> What is `Flux` ?
 
 - **Design Paradigm**
   - An application design paradigm use as replacement for the more traditional MVC pattern
@@ -2196,3 +2663,178 @@ const MyFunction = () => {
     - Jest is easy to learn and use, even for beginners.
   - **Flexibility:**
     - Test a wide variety of JavaScript code, including unit tests, integration tests, and end-to-end tests.
+
+## Performance
+
+> How can Optimize the performance of React ?
+
+- **Avoid Expensive & Unnecessary Rendering**
+  - **Components**
+    - Use shouldComponentUpdate or PureComponent to prevent unnecessary re-rendering.
+  - **Hooks**
+    - Use hooks like UseMemo and useCallback to avoid unnecessary re-renders
+  - **Conditional Rendering**
+    - Use Conditional Rendering to avoid unnecessary re-renders
+  - **Code Splitting**
+    - Use code splitting and lazy loading to load components only when needed
+- **Improve Initial Load Time**
+  - **Server Side Rendering**
+    - use of Server side rendering (SSR) to imporve the initial load time and SEO
+- **Optimize Size bundled**
+  - **Minification & Compression**
+    - use of techniques like minification and compression for optimize size bundled Js and CSS file
+- **Reduce Network Requests**
+  - **Image Optimization**
+    - Compress and optimize images to reduce their file sizes, improving download times.
+  - **Font Optimization**
+    - Use web-safe fonts and consider using font subsets to minimize the font file size.
+  - **HTTP/2 and CDN**
+    - Utilize HTTP/2 protocol for multiplexing multiple requests over a single connection, reducing latency.
+    - Use Content Delivery Networks (CDNs) to cache and serve assets from servers closer to the user, decreasing loading times.
+- **Efficient Data Handling**
+  - **Pagination and Infinite Scrolling**
+    - Implement pagination or infinite scrolling to load and display data progressively, reducing the initial data payload.
+  - **GraphQL and REST Optimization**
+    - Optimize GraphQL queries and REST endpoints to fetch only necessary data, minimizing unnecessary data transfer.
+- **Memory Management**
+  - **Proper Cleanup**
+    - Ensure proper cleanup of subscriptions, timers, and event listeners to prevent memory leaks.
+  - **Debouncing and Throttling**
+    - Implement debouncing and throttling techniques for user input and scroll events to prevent excessive function calls, conserving resources.
+- **Browser Rendering Optimization**
+  - **CSS Performance**
+    - Minimize the use of CSS selectors, optimize CSS rules, and avoid excessive nesting to reduce CSS rendering times.
+  - **Critical Rendering Path**
+    - Optimize critical rendering path by minimizing render-blocking resources, leveraging asynchronous loading, and deferring non-essential scripts.
+
+### Code Splitting
+
+> How use Code Splitting in React ?
+
+- **Definition**
+  - **Create Chunks**
+    - It split a React application's JavaScript bundle into smaller chunks.
+  - **Load Only Needed**
+    - It allows to load only the required code when needed
+- **Benefit**
+  - **Initial Load**
+    - Reduces initial bundle size.
+  - **Memory Usage**
+    - Optimizes memory usage by loading only necessary code chunks.
+  - **User Experience**
+  - Enhances user experience by faster loading times, especially for large applications.
+- **Use React**
+
+  - **Dynamic Import**
+    - dynamic `import()` syntax to load modules asynchronously when needed.
+  - **React.lazy() and Suspense**
+    - `React.lazy()` to lazily load components and
+    - `Suspense` to specify fallback UI during loading
+
+- **Example : Dynamic Import**
+
+```jsx
+import React, { useState, useEffect } from 'react';
+
+const MyComponent = () => {
+  const [dynamicComponent, setDynamicComponent] = useState(null);
+
+  useEffect(() => {
+    const DynamicComponent = await import('./DynamicComponent');
+    setDynamicComponent(DynamicComponent.default);
+  }, []);
+
+  return (
+    <div>
+      <h1>Dynamic Import Example</h1>
+      {dynamicComponent && <dynamicComponent />}
+    </div>
+  );
+};
+export default MyComponent;
+```
+
+- **Example : Use React.lazy() and Suspense**
+
+```jsx
+const MyLazyLoadedComponent = lazy(() => import("./MyLazyLoadedComponent"));
+const MyComponent = () => (
+  <div>
+    <Suspense fallback={<div>Loading...</div>}>
+      <MyLazyLoadedComponent />
+    </Suspense>
+  </div>
+);
+```
+
+## Form
+
+> How can create forms in React?
+
+- **Create**
+
+  - **Controlled Components**
+    - Use controlled components where form elements are linked to the component state.
+    - Controlled components allow React to be the "single source of truth" for the form data
+  - **Library**
+    - Use libraries like Formik or React Hook Form for advanced form handling.
+    - These libraries provide additional features like form validation, error handling, and simplified form submission
+
+- **Example of a controlled input element**
+
+```jsx
+import React, { useState } from "react";
+
+const MyForm = () => {
+  const [formData, setFormData] = useState({
+    username: "",
+    email: "",
+    password: "",
+  });
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // Handle form submission with formData
+    console.log(formData);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Username:
+        <input type="text" name="username" value={formData.username} onChange={handleInputChange} />
+      </label>
+      <label>
+        Email:
+        <input type="email" name="email" value={formData.email} onChange={handleInputChange} />
+      </label>
+      <label>
+        Password:
+        <input
+          type="password"
+          name="password"
+          value={formData.password}
+          onChange={handleInputChange}
+        />
+      </label>
+      <button type="submit">Submit</button>
+    </form>
+  );
+};
+```
+
+## Tools
+
+### Extension
+
+> What is the React Developer Tools Extension ?
+
+- **Inspect & Debug**
+  - It's a Tools that allow developers inspect and debug React Components
+- **Display Hierarchy**
+  - It displays the component hierarchy , props , state and other useful information
