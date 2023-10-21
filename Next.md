@@ -9,7 +9,7 @@
 - **SEO-friendly**
   - It provides an easy way to create dynamic , SEO-friendly websites with minimal configurations
 
-> What are the Benefit of Nest.js ?
+> What are the Benefit of Next.js ?
 
 - **Server-side Rendering:**
   - Boosts performance and SEO with server-side rendering.
